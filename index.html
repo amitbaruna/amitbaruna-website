@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Amit Baruna | Metabolic Health Coach | Fat Loss After 30</title>
+<meta name="description" content="I help people in their 30s, 40s and 50s lose fat when diets, GLP-1 therapy and every programme before this have failed. Featured in The Indian Express. Get your free Metabolic Score™.">
+<meta property="og:title" content="Amit Baruna | Metabolic Health Coach">
+<meta property="og:description" content="Find out which of your 5 metabolic layers is blocking your fat loss. Free 3-minute diagnostic. Featured in The Indian Express.">
+<meta property="og:url" content="https://amitbaruna.com">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0A0A0A;--black2:#111;--black3:#1A1A1A;
+  --red:#D42B2B;--red2:#FF3B3B;--rl:rgba(212,43,43,0.1);--rb:rgba(212,43,43,0.25);
+  --white:#fff;--off:#F7F7F7;
+  --ink:#1A1A1A;--ink2:#444;--ink3:#888;
+  --bdr:rgba(0,0,0,0.08);--bdr2:rgba(212,43,43,0.2);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Arial',sans-serif;background:var(--white);color:var(--ink);line-height:1.7;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.07);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{text-decoration:none;display:block;flex-shrink:0}
+.nav-logo img{width:36px;height:36px;border-radius:4px;display:block}
+.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:6px;z-index:201}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-dd{position:fixed;top:57px;right:0;width:220px;background:#111;border-left:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);padding:.5rem 0;z-index:199;transform:translateX(110%);transition:transform .25s ease;border-radius:0 0 0 8px}
+.nav-dd.open{transform:translateX(0)}
+.nav-dd a{display:block;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#aaa;text-decoration:none;padding:.875rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.04)}
+.nav-dd a:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.nav-dd a:last-child{border-bottom:none;color:var(--red)}
+
+/* ── POPUP ── */
+.pop-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999;display:flex;align-items:center;justify-content:center;padding:1.25rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.pop-overlay.show{opacity:1;pointer-events:all}
+.pop-box{background:var(--black);border:1px solid rgba(255,255,255,0.08);border-radius:12px;max-width:380px;width:100%;overflow:hidden;transform:translateY(20px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,0.6);max-height:92vh;overflow-y:auto}
+.pop-overlay.show .pop-box{transform:translateY(0)}
+.pop-top{background:var(--black);padding:1.25rem 1.5rem 1rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.06)}
+.pop-close{position:absolute;top:.75rem;right:.875rem;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:.9rem;cursor:pointer;line-height:1;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.pop-close:hover{background:rgba(255,255,255,0.2)}
+.pop-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.18em;color:var(--red);font-weight:700;display:block;margin-bottom:.5rem}
+.pop-top h3{font-size:1rem;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.25;margin-bottom:.5rem}
+.pop-top h3 em{font-style:normal;color:var(--red)}
+.pop-top p{font-size:.78rem;color:#888;line-height:1.65;margin-bottom:.5rem}
+.pop-bottom{padding:1.25rem 1.75rem 1.75rem;background:#fff}
+.pop-ie{display:flex;align-items:center;gap:.6rem;background:#000;border:1.5px solid var(--red);border-radius:6px;padding:.65rem .875rem;margin-bottom:1rem}
+.pop-ie p{font-size:.75rem;color:#ccc;margin:0;line-height:1.5;font-weight:500}
+.pop-ie strong{color:#fff;font-weight:900}
+.pop-stats{display:flex;gap:0;margin-bottom:1.25rem;border:1px solid var(--bdr);border-radius:6px;overflow:hidden}
+.ps{flex:1;text-align:center;padding:.65rem .25rem;border-right:1px solid var(--bdr)}
+.ps:last-child{border-right:none}
+.ps-num{font-size:1rem;font-weight:900;color:var(--red);display:block}
+.ps-lbl{font-size:.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+.pop-btn{display:block;width:100%;background:var(--red);color:#fff;padding:.9rem;border-radius:6px;font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border:none;cursor:pointer;text-align:center}
+.pop-btn:hover{background:#B02020}
+.pop-skip{display:block;text-align:center;font-size:.73rem;color:#aaa;margin-top:.75rem;cursor:pointer;background:none;border:none;width:100%}
+
+/* ── WHATSAPP ── */
+.wa{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none}
+.wa svg{width:30px;height:30px;fill:#fff}
+
+/* ── HERO ── */
+.hero{background:var(--black);padding:3rem 1.5rem 4rem}
+.hero-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+@media(max-width:640px){.hero-inner{grid-template-columns:1fr;text-align:center}.hero-img{order:-1;display:flex;justify-content:center}}
+.hero-img img{width:100%;max-width:320px;border-radius:8px;object-fit:cover;display:block}
+.ey{font-size:.68rem;text-transform:uppercase;letter-spacing:.2em;color:var(--red);display:block;margin-bottom:1.25rem;font-weight:700}
+.hero h1{font-size:clamp(1.8rem,4.5vw,3rem);font-weight:900;line-height:1.1;color:#fff;text-transform:uppercase;margin-bottom:1.25rem}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero-sub{font-size:.97rem;color:#ccc;line-height:1.85;margin-bottom:.875rem}
+.hero-sub2{font-size:.88rem;color:#aaa;line-height:1.8;margin-bottom:2rem}
+.btn-red{display:inline-block;background:var(--red);color:#fff;padding:.9rem 2rem;border-radius:4px;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border:none;cursor:pointer;text-decoration:none}
+.btn-red:hover{background:#B02020}
+
+/* ── SECONDARY CTA ── */
+.sec-cta{background:var(--black);padding:.75rem 1.5rem 2rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sec-cta p{font-size:.75rem;color:#555;margin-bottom:.6rem}
+.sec-cta a{font-size:.8rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;border:1px solid #333;padding:.5rem 1.25rem;border-radius:4px;display:inline-block}
+
+/* ── STATS ── */
+.stats{display:flex;flex-wrap:wrap;justify-content:center;background:var(--red);padding:1.5rem 1rem}
+.si{text-align:center;padding:.4rem 1.5rem;border-right:1px solid rgba(255,255,255,0.25)}
+.si:last-child{border-right:none}
+.sn{font-size:1.5rem;font-weight:900;color:#fff;display:block}
+.sl{font-size:.62rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+
+/* ── LOGO BAR ── */
+.logo-bar{background:var(--black);border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);padding:1.75rem 1.5rem}
+.logo-bar p{font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:#aaa;text-align:center;margin-bottom:1.25rem;font-weight:700}
+.logos{display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.logo-item{padding:.5rem 1.5rem;border-right:1px solid rgba(255,255,255,0.07);text-align:center;display:flex;align-items:center;gap:.5rem}
+.logo-item:last-child{border-right:none}
+.logo-name{font-size:.85rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+
+/* ── TRANSFORMATION STRIP ── */
+.trans-section{background:var(--black);padding:3.5rem 0;border-top:1px solid rgba(255,255,255,0.06)}
+.trans-header{max-width:820px;margin:0 auto;padding:0 1.5rem;margin-bottom:1.5rem}
+.trans-scroll{display:flex;gap:1rem;overflow-x:auto;padding:0 1.5rem 1rem;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.trans-scroll::-webkit-scrollbar{display:none}
+.trans-card{flex:0 0 220px;background:#1a1a1a;border:1px solid rgba(255,255,255,0.08);border-radius:8px;overflow:hidden;scroll-snap-align:start}
+@media(max-width:640px){.trans-card{flex:0 0 78vw}.trans-scroll{padding-right:12vw}}
+.trans-img{width:100%;height:260px;object-fit:cover;object-position:top center;display:block;background:#222}
+.trans-body{padding:.875rem 1rem}
+.trans-tag{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-weight:700;margin-bottom:.4rem;display:block}
+.trans-hook{font-size:.82rem;font-weight:700;color:#fff;line-height:1.3;margin-bottom:.6rem}
+.trans-stats{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.4rem}
+.ts{font-size:.68rem;font-weight:700;color:#fff;background:rgba(212,43,43,0.2);border:1px solid rgba(212,43,43,0.3);padding:.18rem .45rem;border-radius:3px}
+.trans-result{font-size:.72rem;color:#888;line-height:1.5}
+
+/* ── INDIAN EXPRESS ── */
+.press{background:var(--white);border-top:4px solid var(--red);padding:3.5rem 1.5rem}
+.ph{max-width:780px;margin:0 auto}
+.ptag{font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:var(--red);display:block;margin-bottom:.75rem;font-weight:700}
+.ph h2{font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:900;color:var(--ink);margin-bottom:1.25rem;line-height:1.2;text-transform:uppercase}
+.ph h2 em{font-style:normal;color:var(--red)}
+.ie-quote{background:var(--off);border-left:4px solid var(--red);padding:1.25rem 1.5rem;margin:1.25rem 0;border-radius:0 6px 6px 0}
+.ie-quote p{font-size:.92rem;color:var(--ink2);line-height:1.85;margin-bottom:.75rem}
+.ie-quote p:last-child{margin-bottom:0}
+.ie-ctx{font-size:.88rem;color:var(--ink2);line-height:1.8;margin-bottom:1rem}
+.ie-badge{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:700;color:var(--red);border:2px solid var(--red);border-radius:4px;padding:.35rem .875rem;margin-top:.875rem;text-transform:uppercase;letter-spacing:.08em;text-decoration:none}
+
+/* ── CASE STUDY TEASER ── */
+.cs-teaser{background:var(--off);padding:3.5rem 0;border-top:1px solid var(--bdr)}
+.cs-header{max-width:820px;margin:0 auto;padding:0 1.5rem;margin-bottom:1.5rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.cs-scroll{display:flex;gap:1rem;overflow-x:auto;padding:0 1.5rem 1rem;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.cs-scroll::-webkit-scrollbar{display:none}
+.cs-card{flex:0 0 255px;background:var(--white);border:1px solid var(--bdr);border-top:3px solid var(--red);border-radius:6px;overflow:hidden;scroll-snap-align:start;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.cs-card-body{padding:1.25rem}
+.cs-reel{width:100%;height:160px;display:block;position:relative;overflow:hidden;background:var(--black3);text-decoration:none}
+.cs-reel img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .3s}
+.cs-reel:hover img{transform:scale(1.03)}
+.cs-reel-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem}
+.cs-play{width:38px;height:38px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center}
+.cs-play-icon{width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:13px solid #fff;margin-left:3px}
+.cs-play-label{font-size:.55rem;text-transform:uppercase;letter-spacing:.12em;color:#fff;font-weight:700}
+.cs-tag{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-weight:700;margin-bottom:.4rem;display:block}
+.cs-hook{font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:.6rem}
+.cs-stats{display:flex;gap:.5rem;margin-bottom:.6rem}
+.cst{font-size:.7rem;font-weight:700;color:var(--red)}
+.cst span{color:var(--ink3);font-weight:400}
+.cs-result{font-size:.75rem;color:var(--ink3);line-height:1.5}
+
+/* ── SECTION ── */
+.sec{max-width:820px;margin:0 auto;padding:4rem 1.5rem}
+.sl2{font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:var(--red);display:block;margin-bottom:.875rem;font-weight:700}
+.sec h2{font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:900;line-height:1.2;margin-bottom:1.25rem;text-transform:uppercase;color:var(--ink)}
+.sec h2 em{font-style:normal;color:var(--red)}
+.sec p{font-size:.92rem;color:var(--ink2);line-height:1.85;margin-bottom:.875rem}
+hr.d{border:none;border-top:1px solid var(--bdr);max-width:820px;margin:0 auto}
+.pull{border-left:3px solid var(--red);padding:.875rem 1.25rem;margin:1.75rem 0;background:var(--off)}
+.pull p{font-size:.95rem;color:var(--ink2);margin:0;line-height:1.75;font-style:italic}
+
+/* ── TIMELINE ── */
+.tl{margin-top:1.75rem;border-left:2px solid var(--rb);padding-left:1.25rem}
+.ti{position:relative;padding-bottom:1.75rem}
+.ti:last-child{padding-bottom:0}
+.td{position:absolute;left:-1.55rem;top:.35rem;width:9px;height:9px;border-radius:50%;background:var(--red)}
+.ty{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--red);margin-bottom:.25rem;font-weight:700}
+.ti h3{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.35rem;text-transform:uppercase}
+.ti p{font-size:.82rem;color:var(--ink3);margin:0;line-height:1.7}
+
+/* ── VIDEO ── */
+.vbg{background:var(--off);padding:4rem 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.vbg-inner{max-width:820px;margin:0 auto;padding:0 1.5rem;margin-bottom:1.5rem}
+.vg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;max-width:820px;margin:0 auto;padding:0 1.5rem}
+.vslot{display:block;text-decoration:none}
+.vthumb{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;position:relative;background:var(--black3);display:flex;align-items:center;justify-content:center}
+.vthumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:block}
+.vthumb-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem}
+.vplay{width:48px;height:48px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center}
+.vplay-icon{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:16px solid #fff;margin-left:3px}
+.vbadge{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#fff;background:rgba(212,43,43,0.9);padding:.2rem .65rem;border-radius:3px}
+.vinfo{padding:.75rem 0 0}
+.vlabel{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--red);font-weight:900;display:block;margin-bottom:.3rem}
+.vdesc{font-size:.88rem;color:var(--ink2);line-height:1.65;font-weight:600}
+.vcoming{width:100%;aspect-ratio:16/9;border-radius:8px;background:var(--black3);border:1px dashed var(--rb);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1rem;text-align:center}
+.vcoming-badge{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--red);border:1px solid var(--red);padding:.2rem .65rem;border-radius:3px}
+.vcoming p{font-size:.75rem;color:#555;line-height:1.5;max-width:180px}
+
+/* ── FRAMEWORK ── */
+.fbg{background:var(--black);padding:4rem 1.5rem;border-top:1px solid rgba(255,255,255,0.06)}
+.fi{max-width:820px;margin:0 auto}
+.layers{margin-top:1.75rem;border:1px solid rgba(255,255,255,0.08);border-radius:8px;overflow:hidden}
+.lyr{display:flex;align-items:stretch;border-bottom:1px solid rgba(255,255,255,0.08)}
+.lyr:last-child{border-bottom:none}
+.ln{width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--red);font-size:1rem;font-weight:900;color:#fff}
+.lb{padding:1rem 1.25rem;flex:1}
+.lb h3{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.2rem;text-transform:uppercase;letter-spacing:.04em}
+.lb p{font-size:.78rem;color:#666;margin:0;line-height:1.55}
+
+/* ── QUIZ ── */
+.qbg{padding:4rem 1.5rem;background:var(--white);border-top:1px solid var(--bdr)}
+.qi{max-width:640px;margin:0 auto}
+.qbox{background:var(--white);border:1px solid var(--bdr);border-radius:8px;padding:2rem 1.5rem;margin-top:1.75rem;box-shadow:0 4px 24px rgba(0,0,0,0.07)}
+.qprog{display:flex;gap:3px;margin-bottom:1.75rem}
+.qd{height:3px;flex:1;border-radius:2px;background:#E5E5E5}
+.qd.done{background:var(--red)}.qd.active{background:var(--red2)}
+.qlt{font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:var(--red);margin-bottom:.5rem;font-weight:700}
+.qq{font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;line-height:1.4;text-transform:uppercase}
+.qh{font-size:.73rem;color:var(--ink3);margin-bottom:1.25rem}
+.qopts{display:flex;flex-direction:column;gap:.5rem}
+.qo{font-size:.85rem;color:var(--ink2);background:var(--off);border:1px solid var(--bdr);border-radius:5px;padding:.75rem 1rem;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:.6rem}
+.qo:hover,.qo.sel{border-color:var(--red);color:var(--ink);background:var(--rl)}
+.qcb{width:15px;height:15px;border-radius:3px;border:1px solid #CCC;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;background:#fff}
+.qo.sel .qcb{background:var(--red);border-color:var(--red);color:#fff}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem}
+.qctr{font-size:.73rem;color:var(--ink3)}
+.bbk{background:none;color:var(--ink3);padding:.65rem 1rem;border-radius:4px;border:1px solid var(--bdr);cursor:pointer;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:none}
+.bbk.on{display:block}
+.bnxt{background:var(--red);color:#fff;padding:.65rem 1.5rem;border-radius:4px;border:none;cursor:pointer;font-size:.82rem;font-weight:700;opacity:.3;pointer-events:none;transition:opacity .2s;text-transform:uppercase;letter-spacing:.06em}
+.bnxt.on{opacity:1;pointer-events:all}
+
+/* ── RESULT ── */
+.rb{display:none}
+.rt{background:var(--rl);border:2px solid var(--red);border-radius:6px;padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.rt h3{font-size:1rem;font-weight:900;color:var(--red);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.02em}
+.rt p{font-size:.86rem;color:var(--ink2);margin:0;line-height:1.75}
+.rg{background:var(--off);border:1px solid var(--bdr);border-radius:6px;padding:1.25rem;position:relative;min-height:180px}
+.gb{filter:blur(5px);pointer-events:none;user-select:none;font-size:.82rem;color:var(--ink2);line-height:1.8}
+.go{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(247,247,247,0.92);border-radius:6px;padding:1.25rem;text-align:center}
+.go>p{font-size:.84rem;color:var(--ink2);margin-bottom:.875rem;line-height:1.6}
+.gf{display:flex;flex-direction:column;gap:.5rem;width:100%;max-width:320px}
+.gf input{font-size:.88rem;background:#fff;border:1px solid #CCC;border-radius:4px;padding:.7rem .9rem;color:var(--ink);outline:none;width:100%}
+.gf input:focus{border-color:var(--red)}
+.gf input::placeholder{color:#AAA}
+.bul{background:var(--red);color:#fff;padding:.8rem 1.25rem;border-radius:4px;border:none;cursor:pointer;font-size:.88rem;font-weight:700;width:100%;text-transform:uppercase;letter-spacing:.06em}
+.sm{display:none;text-align:center;padding:.875rem}
+.sm h3{font-size:1rem;font-weight:700;color:var(--red);margin-bottom:.6rem;text-transform:uppercase}
+.sm p{font-size:.84rem;color:var(--ink2);margin-bottom:1rem;line-height:1.65}
+
+/* ── PROGRAM ── */
+.pbg{padding:4rem 1.5rem;background:var(--off);border-top:1px solid var(--bdr)}
+.pcard{background:var(--white);border:1px solid var(--bdr);border-top:3px solid var(--red);border-radius:6px;padding:2rem 1.75rem;margin-top:1.75rem;box-shadow:0 2px 16px rgba(0,0,0,0.06)}
+.pcard h3{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;text-transform:uppercase}
+.ptag{font-size:.8rem;color:var(--ink3);margin-bottom:1.25rem}
+.pinc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem;margin-bottom:1.5rem}
+.pi{display:flex;gap:.5rem;align-items:flex-start}
+.pk{color:var(--red);font-size:.85rem;margin-top:.15rem;flex-shrink:0;font-weight:700}
+.pi p{font-size:.82rem;color:var(--ink2);margin:0;line-height:1.55}
+.pnote{font-size:.78rem;color:var(--ink3);border-top:1px solid var(--bdr);padding-top:1rem}
+.pnote strong{color:var(--ink)}
+
+/* ── CTA ── */
+.ctaf{background:var(--red);padding:5rem 1.5rem;text-align:center}
+.ctaf h2{font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;max-width:580px;margin:0 auto .875rem;line-height:1.15;text-transform:uppercase;color:#fff}
+.ctaf p{font-size:.9rem;color:rgba(255,255,255,0.8);max-width:440px;margin:0 auto 2rem}
+.btn-white{display:inline-block;background:#fff;color:var(--red);padding:.9rem 2.25rem;border-radius:4px;font-size:.9rem;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:.06em}
+.btn-white:hover{background:#f0f0f0}
+.cta-note{font-size:.72rem;color:rgba(255,255,255,0.55);margin-top:1rem;display:block}
+
+footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.06);padding:1.75rem 1.5rem;text-align:center;font-size:.73rem;color:#555}
+footer a{color:#555;text-decoration:none;margin:0 .6rem}
+footer a:hover{color:var(--red)}
+.tm{font-size:.55em;vertical-align:super;color:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- POPUP -->
+<div class="pop-overlay" id="popup">
+  <div class="pop-box">
+    <div class="pop-top">
+      <button class="pop-close" onclick="closePopup()">✕</button>
+      <span class="pop-label">Free Metabolic Diagnostic</span>
+      <p style="font-size:.78rem;color:#aaa;font-style:italic;margin-bottom:.35rem">Curious to know —</p>
+      <h3>Which of your <em>5 metabolic layers</em> is blocking your fat loss?</h3>
+      <p>Find out in 3 minutes. Get your personal Metabolic Score™ out of 100.</p>
+      <div style="margin:.5rem 0 .25rem">
+        <svg viewBox="0 0 220 120" style="width:100%;max-width:200px;display:block;margin:0 auto" id="popupGauge">
+          <defs>
+            <linearGradient id="pgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#991B1B"/>
+              <stop offset="40%" style="stop-color:#EF4444"/>
+              <stop offset="70%" style="stop-color:#F59E0B"/>
+              <stop offset="100%" style="stop-color:#22C55E"/>
+            </linearGradient>
+          </defs>
+          <!-- Full background arc -->
+          <path d="M 25 105 A 85 85 0 0 1 195 105" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10" stroke-linecap="round"/>
+          <!-- Full colored arc 0-100 -->
+          <path d="M 25 105 A 85 85 0 0 1 195 105" fill="none" stroke="url(#pgGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="267" stroke-dashoffset="267" id="popupArc"/>
+          <!-- Tick marks -->
+          <g id="ticks"></g>
+          <!-- Needle -->
+          <line x1="110" y1="105" x2="35" y2="105" id="popupNeedle" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="110" cy="105" r="4" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+        <p style="font-size:.65rem;color:rgba(255,255,255,0.3);text-align:center;margin-top:.1rem">Your score awaits →</p>
+      </div>
+    </div>
+    <div class="pop-bottom">
+      <div class="pop-ie">
+        <svg width="14" height="18" viewBox="0 0 14 22" fill="none"><path d="M1 2L6 8L1 14" stroke="#D42B2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 5L9 11L4 17" stroke="#D42B2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 8L12 14L7 20" stroke="#D42B2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>As featured in <strong>The Indian Express</strong> alongside senior hospital physicians</p>
+      </div>
+      <div class="pop-stats">
+        <div class="ps"><span class="ps-num">4,000+</span><span class="ps-lbl">Clients</span></div>
+        <div class="ps"><span class="ps-num">300+</span><span class="ps-lbl">GLP-1 Cases</span></div>
+        <div class="ps"><span class="ps-num">8+</span><span class="ps-lbl">Years</span></div>
+      </div>
+      <button class="pop-btn" onclick="closePopup();document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Get Your Metabolic Score™ →</button>
+      <button class="pop-skip" onclick="closePopup()">No thanks, I'll continue reading</button>
+    </div>
+  </div>
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/918588828986?text=Hi%20Amit%2C%20I%20just%20visited%20your%20website%20and%20wanted%20to%20know%20more." target="_blank" class="wa" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo"><img src="favicon.png" alt="AB"></a>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-dd" id="navDD">
+    <a href="/">Home</a>
+    <a href="/transformations">Results</a>
+    <a href="/casestudies">Case Studies</a>
+    <a href="diagnostic.html">Diagnostic Tools</a>
+    <a href="#" onclick="closeNav();setTimeout(()=>document.getElementById('quiz').scrollIntoView({behavior:'smooth'}),300);return false;">Metabolic Score</a>
+    <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank">Book a Call →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="ey">Metabolic Health Coach · New Delhi · 8+ Years</span>
+      <h1>YOUR BODY ISN'T BROKEN.<br>IT HASN'T BEEN GIVEN<br><em>PERMISSION</em> TO LOSE FAT YET.</h1>
+      <p class="hero-sub">You're eating right. You're trying hard. You may even be on medication. And your body still isn't responding. That's not a willpower problem — it's a biological one.</p>
+      <p class="hero-sub2">I work with people in their 30s, 40s and 50s to find exactly what's blocking their fat loss — including what standard blood work misses — and fix it from the root.</p>
+      <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank" class="btn-red">Book a Strategy Call →</a>
+    </div>
+    <div class="hero-img">
+      <img src="Hero.png" alt="Amit Baruna — Metabolic Health Coach">
+    </div>
+  </div>
+</div>
+
+<!-- SECONDARY CTA removed -->
+
+<!-- STATS -->
+<div class="stats">
+  <div class="si"><span class="sn">4,000+</span><span class="sl">Clients Handled</span></div>
+  <div class="si"><span class="sn">8+</span><span class="sl">Years</span></div>
+  <div class="si"><span class="sn">300+</span><span class="sl">GLP-1 Cases</span></div>
+  <div class="si"><span class="sn">275+</span><span class="sl">Coaches Trained</span></div>
+</div>
+
+<!-- LOGO BAR -->
+<div class="logo-bar">
+  <p>Associated With & Featured In</p>
+  <div class="logos">
+    <div class="logo-item" style="border-right:1px solid rgba(255,255,255,0.07)">
+      <svg width="20" height="20" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="17" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/><rect x="13" y="10" width="4" height="20" rx="1.5" fill="rgba(255,255,255,0.6)"/><rect x="23" y="10" width="4" height="20" rx="1.5" fill="rgba(255,255,255,0.6)"/><rect x="13" y="18" width="14" height="4" rx="1.5" fill="rgba(255,255,255,0.6)"/></svg>
+      <span class="logo-name" style="color:rgba(255,255,255,0.65)">Healthify</span>
+    </div>
+    <div class="logo-item" style="border-right:1px solid rgba(255,255,255,0.07)">
+      <svg width="14" height="20" viewBox="0 0 14 24" fill="none"><path d="M1 2L6 8L1 14" stroke="#D42B2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 5L9 11L4 17" stroke="#D42B2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 8L12 14L7 20" stroke="#D42B2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="logo-name" style="color:rgba(255,255,255,0.8);font-family:Georgia,serif;font-weight:400">The Indian <strong style="font-family:Arial,sans-serif;font-weight:900;letter-spacing:.04em">EXPRESS</strong></span>
+    </div>
+    <div class="logo-item" style="border-right:1px solid rgba(255,255,255,0.07)">
+      <span class="logo-name" style="color:rgba(255,255,255,0.55)">Cult.fit</span>
+    </div>
+    <div class="logo-item" style="border-right:1px solid rgba(255,255,255,0.07)">
+      <span class="logo-name" style="color:rgba(255,255,255,0.55)">Fitness First</span>
+    </div>
+    <div class="logo-item">
+      <span class="logo-name" style="color:rgba(255,255,255,0.55)">FitMeNow</span>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSFORMATION STRIP -->
+<div class="trans-section">
+  <div class="trans-header">
+    <span class="sl2">Real Transformations</span>
+    <h2 style="font-size:clamp(1.3rem,3vw,2rem);font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:.4rem">Results That <em style="color:var(--red)">Speak For Themselves.</em></h2>
+    <p style="font-size:.85rem;color:#666">Swipe to see real client outcomes. <a href="/transformations" style="color:var(--red);font-weight:700;text-decoration:none">See all transformations →</a></p>
+  </div>
+  <div class="trans-scroll">
+    <div class="trans-card"><img src="ba12.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Type 2 Diabetes</span><div class="trans-hook">"3.5 years on Metformin. HbA1c still at 11.8."</div><div class="trans-stats"><span class="ts">8 kg lost</span><span class="ts">4–5 kg muscle</span><span class="ts">Age 34</span></div><div class="trans-result">HbA1c 11.8 → 6.9 · Medication on reduction path</div></div></div>
+    <div class="trans-card"><img src="ba13.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Type 2 Diabetes · Stress & Cortisol</span><div class="trans-hook">"Eating less. Medicating. Still getting worse — for 6 years."</div><div class="trans-stats"><span class="ts">9 kg lost</span><span class="ts">100 days</span><span class="ts">Age 44</span></div><div class="trans-result">HbA1c 10.8 → 5.5 · Brain fog cleared · Energy restored</div></div></div>
+    <div class="trans-card"><img src="ba3.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Insulin Resistance · Postpartum</span><div class="trans-hook">"15 min → 60 min strength training 4x/week."</div><div class="trans-stats"><span class="ts">6 kg lost</span><span class="ts">6 months</span><span class="ts">Age 35</span></div><div class="trans-result">Full strength & endurance restored</div></div></div>
+    <div class="trans-card"><img src="ba4.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Menopause · Sleep Apnea</span><div class="trans-hook">"CPAP machine removed. Sleep apnea gone."</div><div class="trans-stats"><span class="ts">24 kg lost</span><span class="ts">8 months</span><span class="ts">Age 53</span></div><div class="trans-result">500 → 3,000 steps · No brain fog</div></div></div>
+    <div class="trans-card"><img src="ba16.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Type 2 Diabetes · Insulin Resistance · GLP-1 Non-Responder</span><div class="trans-hook">"A doctor who tried everything — including GLP-1. Nothing worked."</div><div class="trans-stats"><span class="ts">6 kg lost</span><span class="ts">6 weeks</span><span class="ts">Age 36</span></div><div class="trans-result">Blood sugar controlled · Sleep uninterrupted · Metabolic permission restored</div></div></div>
+    <div class="trans-card"><img src="ba14.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Type 2 Diabetes</span><div class="trans-hook">"Active. Walking more. Eating less. Still diabetic at 94 kg."</div><div class="trans-stats"><span class="ts">12 kg lost</span><span class="ts">4 months</span><span class="ts">Age 32</span></div><div class="trans-result">HbA1c 8.2 → 6.1 · Medication reduced · Strength transformed</div></div></div>
+    <div class="trans-card"><img src="ba10.jpeg" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Menopause · Insulin Resistance</span><div class="trans-hook">"Completed her first 10km marathon at 51."</div><div class="trans-stats"><span class="ts">17 kg lost</span><span class="ts">1 year</span><span class="ts">Age 51</span></div><div class="trans-result">Brain fog gone · Sleep & gut fully restored</div></div></div>
+    <div class="trans-card"><img src="ba8.png" alt="" class="trans-img"><div class="trans-body"><span class="trans-tag">Postpartum · High Inflammation</span><div class="trans-hook">"Ankylosing spondylitis symptoms improved."</div><div class="trans-stats"><span class="ts">5 kg lost</span><span class="ts">4 months</span><span class="ts">Age 34</span></div><div class="trans-result">15 min restricted → 45 min strength training</div></div></div>
+  </div>
+</div>
+
+<!-- INDIAN EXPRESS -->
+<div class="press">
+  <div class="ph">
+    <span class="ptag">★ National Press Recognition</span>
+    <h2>Quoted in <em>The Indian Express</em> alongside senior hospital physicians</h2>
+    <p class="ie-ctx">In a national feature on GLP-1 weight loss therapy, <strong style="color:var(--red)">The Indian Express</strong> cited <strong>Amit Baruna</strong> by name — alongside a <strong>Head of Diabetology</strong> and a <strong>Consultant Bariatric Surgeon</strong> — as the metabolic expert whose case study illustrated what physicians were missing. His Instagram post on the case was embedded directly in the article.</p>
+    <div class="ie-quote">
+      <p><strong>The case:</strong> A 52-year-old woman whose body was in survival mode. Even GLP-1 couldn't help her. She used Mounjaro for eight weeks — zero fat loss. Her metabolism was not slow. It was literally shut down.</p>
+      <p><strong>The intervention:</strong> <em>"We made her stop for two weeks. No intense training. We added 90 minutes of extra sleep. Some walk post-dinner. Targeted supplement. Only then does her metabolism respond. Not to pressure but to support"</em> — <strong style="color:var(--red)">Amit Baruna, The Indian Express</strong></p>
+      <p><strong>The outcome:</strong> Metabolism responded. Fat loss resumed. The case became a national reference point for GLP-1 lifestyle integration.</p>
+    </div>
+    <p style="font-size:.82rem;color:var(--ink3)">Positioned alongside <strong>Dr Vijay Negalur</strong> (Head of Diabetology, KIMS Hospitals) and <strong>Dr Ramen Goel</strong> (Consultant Bariatric Surgeon, Wockhardt Hospitals).</p>
+    <a href="https://indianexpress.com/article/lifestyle/health/yearender-2025-weight-loss-injections-lifestyle-habits-metabolic-stability-experts-10423405/" target="_blank" class="ie-badge">→ Read the Indian Express Article</a>
+  </div>
+</div>
+
+<!-- CASE STUDY TEASER -->
+<div class="cs-teaser">
+  <div class="cs-header">
+    <div>
+      <span class="sl2">Deep Case Studies</span>
+      <h2 style="font-size:clamp(1.2rem,3vw,1.8rem);font-weight:900;text-transform:uppercase;color:var(--ink);margin:0">The Diagnostic Stories <em style="color:var(--red)">Behind The Results.</em></h2>
+    </div>
+    <a href="/casestudies" class="btn-red" style="font-size:.8rem;padding:.6rem 1.25rem;white-space:nowrap">See All Cases →</a>
+  </div>
+  <div class="cs-scroll">
+    <div class="cs-card"><a class="cs-reel" href="https://www.instagram.com/p/DRvEBhWk1BV/" target="_blank"><img src="case1.png" alt="Case 1"><div class="cs-reel-overlay"><div class="cs-play"><div class="cs-play-icon"></div></div><span class="cs-play-label">Watch Case Study</span></div></a><div class="cs-card-body"><span class="cs-tag">Type 2 Diabetes</span><div class="cs-hook">"3.5 years on Metformin. HbA1c still at 11.8."</div><div class="cs-stats"><div class="cst">8 kg <span>lost</span></div><div class="cst">Age <span>34</span></div></div><div class="cs-result">HbA1c 11.8 → 6.9 · Medication reduced</div></div></div>
+    <div class="cs-card"><a class="cs-reel" href="https://www.instagram.com/reel/DSksIvFj0na/" target="_blank"><img src="case4.png" alt="Case 4"><div class="cs-reel-overlay"><div class="cs-play"><div class="cs-play-icon"></div></div><span class="cs-play-label">Watch Case Study</span></div></a><div class="cs-card-body"><span class="cs-tag">Type 2 Diabetes · Stress & Cortisol</span><div class="cs-hook">"Eating less. Medicating. Still getting worse — for 6 years."</div><div class="cs-stats"><div class="cst">9 kg <span>lost</span></div><div class="cst">100 days</div><div class="cst">Age <span>44</span></div></div><div class="cs-result">HbA1c 10.8 → 5.5 · Brain fog cleared</div></div></div>
+    <div class="cs-card"><a class="cs-reel" href="https://www.instagram.com/p/DSPw4Wvj3oC/" target="_blank"><img src="case3.png" alt="Case 3"><div class="cs-reel-overlay"><div class="cs-play"><div class="cs-play-icon"></div></div><span class="cs-play-label">Watch Case Study</span></div></a><div class="cs-card-body"><span class="cs-tag">Perimenopause · GLP-1 Non-Responder</span><div class="cs-hook">"Training for 5–6 years. GLP-1 for weeks. Her body was in survival mode."</div><div class="cs-stats"><div class="cst">8 wk <span>duration</span></div><div class="cst">Age <span>52</span></div></div><div class="cs-result">Fat loss resumed · Metabolic permission restored</div></div></div>
+    <div class="cs-card"><a class="cs-reel" href="https://www.instagram.com/reel/DXZpndxiApl/" target="_blank"><img src="case7.png" alt="Case 7"><div class="cs-reel-overlay"><div class="cs-play"><div class="cs-play-icon"></div></div><span class="cs-play-label">Watch Case Study</span></div></a><div class="cs-card-body"><span class="cs-tag">Type 2 Diabetes · GLP-1 Non-Responder</span><div class="cs-hook">"A doctor who tried everything — including GLP-1. Nothing worked."</div><div class="cs-stats"><div class="cst">6 kg <span>lost</span></div><div class="cst">6 wk <span>duration</span></div><div class="cst">Age <span>36</span></div></div><div class="cs-result">Blood sugar controlled · Sleep uninterrupted</div></div></div>
+  </div>
+</div>
+
+<!-- STORY CAROUSEL -->
+<div style="background:#0D0D0D;padding:4rem 0;border-top:1px solid rgba(255,255,255,0.06)">
+  <div style="max-width:820px;margin:0 auto;padding:0 1.5rem 1.25rem">
+    <span style="font-family:'Arial',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:#D42B2B;font-weight:700;display:block;margin-bottom:.75rem">The Story</span>
+    <h2 style="font-family:'Arial',sans-serif;font-size:clamp(1.4rem,3.5vw,2.1rem);font-weight:900;line-height:1.2;text-transform:uppercase;color:#fff;margin-bottom:.5rem">I DIDN'T LEARN THIS IN A COURSE.<br><em style="font-style:normal;color:#D42B2B">I BUILT IT ACROSS A DECADE OF REAL CASES.</em></h2>
+    <p style="font-family:'Arial',sans-serif;font-size:.8rem;color:#444;margin:0">Swipe to read the full story →</p>
+  </div>
+  <div style="display:flex;flex-direction:row;gap:1rem;overflow-x:auto;padding:0 1.5rem 1.5rem;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:none">
+
+    <div style="flex:0 0 270px;min-width:270px;background:#FFFFFF;border-left:3px solid #D42B2B;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#D42B2B;font-weight:700;display:block;margin-bottom:.75rem">The Beginning</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#111111;line-height:1.9;margin:0;flex:1">I was that coach. Loud, energetic, convinced that the right programme could fix anything. I genuinely believed hard work was the answer for everyone. That belief didn't last long.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">01 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#1A1A1A;border-left:3px solid #8B1A1A;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#8B1A1A;font-weight:700;display:block;margin-bottom:.75rem">Fitness First · Mar 2017 – Dec 2018</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#FFFFFF;line-height:1.9;margin:0">I was working with some of the most committed people I'd ever met. Showing up every day. Following the plan. And some of them just... weren't changing. Same effort. Different results. I couldn't explain it. That bothered me more than I let on.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">02 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#1A1A1A;border-left:3px solid #555555;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#BBBBBB;font-weight:700;display:block;margin-bottom:.75rem">Cult.fit · Dec 2018 – Feb 2021</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#FFFFFF;line-height:1.9;margin:0">Every now and then I'd get a case — someone doing everything right and still failing. It wasn't discipline. It wasn't diet. Something deeper was breaking. I just didn't have the language for it yet.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">03 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#1A1A1A;border-left:3px solid #444444;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#BBBBBB;font-weight:700;display:block;margin-bottom:.75rem">FitMeNow · Jan 2021 – Dec 2025</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#FFFFFF;line-height:1.9;margin:0">I built my own centre and consulted 2,000+ people who nobody else had answers for. The more cases I saw, the clearer it became — for a lot of these people, the problem wasn't what they were eating or how they were training. Something else was off. I just hadn't found the exact words for it yet.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">04 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#FFFFFF;border-left:3px solid #D42B2B;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#D42B2B;font-weight:700;display:block;margin-bottom:.75rem">The Search</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#111111;line-height:1.9;margin:0">The answers weren't in any programme. They weren't in any certification. I started reading everything — sleep science, stress physiology, gut health, inflammation, circadian rhythm. Book after book. I wasn't looking for a new protocol. I was looking for the pattern that connected all of it. And slowly — it started to appear.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">05 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#1A1A1A;border-left:3px solid #D42B2B;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#D42B2B;font-weight:700;display:block;margin-bottom:.75rem">HealthifyMe · Sep 2021 – Dec 2025</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#FFFFFF;line-height:1.9;margin:0">This is where it all started clicking. Deep blood work. CGM data. Physician referrals. GLP-1 cases. 2,000+ consultations. The data kept pointing to the same thing — it wasn't the diet. It wasn't the workout. It was sleep. It was stress. It was circadian rhythm. The body wasn't broken. It just hadn't been given permission.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">06 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#1A1A1A;border-left:3px solid #FF4444;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:#FF4444;font-weight:700;display:block;margin-bottom:.75rem">The Indian Express Moment</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#FFFFFF;line-height:1.9;margin:0">This was the moment that broke the common belief. Even the strongest fat loss drug available couldn't move the needle — because the metabolism was completely shut down. I was able to fix something that the most powerful GLP-1 drug couldn't fix alone. That case ended up in The Indian Express alongside senior hospital physicians.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:#D42B2B;font-weight:700;display:block;margin-top:1.25rem;text-align:right">07 / 08</span>
+    </div>
+
+    <div style="flex:0 0 270px;min-width:270px;background:#D42B2B;border-radius:8px;padding:1.5rem;scroll-snap-align:start;box-sizing:border-box">
+      <span style="font-family:'Arial',sans-serif;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.75);font-weight:700;display:block;margin-bottom:.75rem">The Framework</span>
+      <p style="font-family:Georgia,serif;font-size:.93rem;color:#fff;line-height:1.9;margin:0">Fat loss failure isn't always about effort. It's deeper. It's about which biological layer is breaking — and in what sequence. That's what the 5 Layers of Metabolic Permission™ is built on.</p>
+      <span style="font-family:'Arial',sans-serif;font-size:1rem;color:rgba(255,255,255,0.6);font-weight:700;display:block;margin-top:1.25rem;text-align:right">08 / 08</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- FRAMEWORK -->
+<div class="vbg">
+  <div class="vbg-inner">
+    <span class="sl2">My Story</span>
+    <h2 style="font-size:clamp(1.3rem,3vw,2rem);font-weight:900;text-transform:uppercase;margin-bottom:.4rem;color:var(--ink)">Before You Decide Anything — <em style="color:var(--red)">Watch This First.</em></h2>
+    <p style="font-size:.88rem;color:var(--ink3)">Three videos. Who I am, what changed my view of fat loss forever, and the system I built from it.</p>
+  </div>
+  <div class="vg">
+    <a href="https://www.instagram.com/p/DSARgp5jwKu/" target="_blank" class="vslot">
+      <div class="vthumb">
+        <img src="mystory.png" alt="Why I Do This">
+        <div class="vthumb-overlay">
+          <div class="vplay"><div class="vplay-icon"></div></div>
+          <span class="vbadge">Watch the Story</span>
+        </div>
+      </div>
+      <div class="vinfo">
+        <span class="vlabel">Why I Do This</span>
+        <p class="vdesc">My origin story — what made me obsessed with metabolic health when no one else was asking these questions</p>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/p/DSPw4Wvj3oC/" target="_blank" class="vslot">
+      <div class="vthumb">
+        <img src="glp1.png" alt="The Case That Changed Everything">
+        <div class="vthumb-overlay">
+          <div class="vplay"><div class="vplay-icon"></div></div>
+          <span class="vbadge">Watch the Story</span>
+        </div>
+      </div>
+      <div class="vinfo">
+        <span class="vlabel">The Case That Changed Everything</span>
+        <p class="vdesc">The GLP-1 case featured in The Indian Express — told in my voice, the way it actually happened</p>
+      </div>
+    </a>
+    <div class="vslot">
+      <div class="vcoming">
+        <span class="vcoming-badge">Coming Soon</span>
+        <p>What Nobody Is Telling You About Fat Loss</p>
+      </div>
+      <div class="vinfo">
+        <span class="vlabel">What Nobody Is Telling You</span>
+        <p class="vdesc">Why fat loss fails — and what laid down the foundation of my 5 Layers of Metabolic Permission™ framework, built across 8+ years and thousands of cases.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FRAMEWORK -->
+<div class="fbg">
+  <div class="fi">
+    <span class="sl2" style="color:var(--red)">The Framework</span>
+    <h2 style="font-size:clamp(1.3rem,3vw,2rem);font-weight:900;text-transform:uppercase;margin-bottom:.75rem;color:#fff">5 Layers of Metabolic Permission<span class="tm">™</span></h2>
+    <p style="font-size:.88rem;color:#888;max-width:580px;line-height:1.8;margin-bottom:0">Fat loss isn't a <strong style="color:#fff">willpower problem.</strong> It's a <strong style="color:var(--red)">biological permission problem.</strong> When one layer breaks, it pulls the next one with it — creating a cascade that makes fat loss <strong style="color:#fff">physiologically impossible</strong> until the right layer is restored first.</p>
+    <div class="layers">
+      <div class="lyr"><div class="ln">1</div><div class="lb"><h3>Circadian Authority</h3><p>Restoring biological recovery and internal time regulation</p></div></div>
+      <div class="lyr"><div class="ln">2</div><div class="lb"><h3>Neurochemical Safety</h3><p>Shifting from stress-driven performance to stable motivation</p></div></div>
+      <div class="lyr"><div class="ln">3</div><div class="lb"><h3>Metabolic Signaling</h3><p>Rebuilding the body's ability to access and utilise energy efficiently</p></div></div>
+      <div class="lyr"><div class="ln">4</div><div class="lb"><h3>Gut–Brain Axis Stability</h3><p>Supporting clarity through inflammatory and digestive balance</p></div></div>
+      <div class="lyr"><div class="ln">5</div><div class="lb"><h3>Identity Physiology</h3><p>Integrating biological stability into long-term behavioural identity</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="qbg" id="quiz">
+  <div class="qi">
+    <span class="sl2">Free Diagnostic</span>
+    <h2 style="font-size:clamp(1.3rem,3vw,2rem);font-weight:900;text-transform:uppercase;margin-bottom:.4rem;color:var(--ink)">GET YOUR <em style="color:var(--red)">METABOLIC SCORE™ — FREE</em></h2>
+    <p style="font-size:.88rem;color:var(--ink2)">10 questions · Select all that apply · 3 minutes · Your score out of 100</p>
+    <div class="qbox">
+      <div id="qmain">
+        <div class="qprog" id="qprog"></div>
+        <div id="qlt" class="qlt"></div>
+        <div id="qq" class="qq"></div>
+        <div class="qh">Select all that apply to you</div>
+        <div id="qopts" class="qopts"></div>
+        <div class="qnav"><button class="bbk" id="bbk" onclick="prevQ()">← Back</button><span class="qctr" id="qctr"></span><button class="bnxt" id="bnxt" onclick="nextQ()">Next →</button></div>
+      </div>
+      <div class="rb" id="rb">
+        <div id="gauge-container"></div>
+        <div class="rt"><h3 id="rtitle"></h3><p id="rdesc"></p></div>
+        <div class="rg">
+          <div class="gb">Your full metabolic breakdown includes: the exact physiological mechanism breaking in your primary layer · the 3 most common mistakes that make this layer worse · a prioritised protocol sequence to restore it · which biomarkers to track · and how this layer affects the other 4.</div>
+          <div class="go" id="go">
+            <p>Enter your details — I'll send your full layer breakdown on WhatsApp personally.</p>
+            <form class="gf" id="gf" action="https://formspree.io/f/mwvjprbq" method="POST" onsubmit="handleForm(event)">
+              <input type="hidden" name="Layer Result" id="f-result"/>
+              <input type="text" name="Name" id="fn" placeholder="Your name" required/>
+              <input type="tel" name="WhatsApp" id="fw" placeholder="WhatsApp (with country code)" required/>
+              <input type="email" name="Email" id="fe" placeholder="Email address" required/>
+              <button type="submit" class="bul">Send My Full Breakdown →</button>
+            </form>
+            <div class="sm" id="sm">
+              <h3>Done ✓</h3>
+              <p>Your full metabolic breakdown is heading to your WhatsApp. I review every result personally and will be in touch within 24 hours.</p>
+              <button class="btn-red" onclick="window.open('https://calendly.com/amit-baruna/transformation-blueprint-call','_blank')">Book Your Strategy Call →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAM -->
+<div class="pbg">
+  <div style="max-width:820px;margin:0 auto">
+    <span class="sl2">Work With Me</span>
+    <h2 style="font-size:clamp(1.3rem,3vw,2rem);font-weight:900;text-transform:uppercase;margin-bottom:.4rem;color:var(--ink)">The Metabolic Permission<span class="tm">™</span> <em style="color:var(--red)">1:1 Programme</em></h2>
+    <p style="font-size:.88rem;color:var(--ink2);max-width:560px">A diagnostic-first coaching engagement for people whose metabolism has stopped responding. Small client base — full attention on every case.</p>
+    <div class="pcard">
+      <h3>What's Included</h3>
+      <p class="ptag">Built around your specific layer breakdown — not a generic template.</p>
+      <div class="pinc">
+        <div class="pi"><span class="pk">✓</span><p>Deep metabolic intake across all 5 layers</p></div>
+        <div class="pi"><span class="pk">✓</span><p>CGM and biomarker interpretation</p></div>
+        <div class="pi"><span class="pk">✓</span><p>Root-cause nutrition and meal timing protocol</p></div>
+        <div class="pi"><span class="pk">✓</span><p>Nervous system and stress recovery plan</p></div>
+        <div class="pi"><span class="pk">✓</span><p>GLP-1 lifestyle integration (if applicable)</p></div>
+        <div class="pi"><span class="pk">✓</span><p>Muscle Guard Protocol for lean mass preservation</p></div>
+        <div class="pi"><span class="pk">✓</span><p>Weekly 1:1 check-ins and adjustments</p></div>
+        <div class="pi"><span class="pk">✓</span><p>Physician collaboration where needed</p></div>
+      </div>
+      <p class="pnote"><strong>Investment discussed on the strategy call.</strong> India & international clients welcome (UAE and beyond).</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="ctaf">
+  <h2>IF YOU'VE BEEN TOLD YOUR RESULTS ARE YOUR FAULT — LET'S TALK.</h2>
+  <p>The strategy call is 30 minutes. You'll leave knowing exactly what's blocking your progress — whether we work together or not.</p>
+  <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank" class="btn-white">Book Your Free Strategy Call →</a>
+  <span class="cta-note">No obligation · Calendly · Limited availability</span>
+</div>
+
+<footer>
+  <div style="margin-bottom:.6rem">
+    <a href="https://www.instagram.com/amitbaruna/" target="_blank">Instagram</a>
+    <a href="https://www.linkedin.com/in/amit-baruna-3bb885193/" target="_blank">LinkedIn</a>
+    <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank">Book a Call</a>
+    <a href="mailto:amit.baruna@gmail.com">Email</a>
+  </div>
+  © 2026 Amit Baruna · New Delhi · Metabolic Health Coach
+</footer>
+
+<script>
+// NAV
+function toggleNav(){
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('navDD').classList.toggle('open');
+}
+function closeNav(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('navDD').classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  const h=document.getElementById('hamburger');
+  const d=document.getElementById('navDD');
+  if(h&&d&&!h.contains(e.target)&&!d.contains(e.target)){closeNav();}
+});
+
+// POPUP
+function closePopup(){document.getElementById('popup').classList.remove('show')}
+function animatePopupMeter(){
+  const arc=document.getElementById('popupArc');
+  const needle=document.getElementById('popupNeedle');
+  const ticks=document.getElementById('ticks');
+  if(!arc||!needle)return;
+
+  // Draw number labels on the arc
+  const cx=110,cy=105,r=85;
+  const labels=[0,10,20,30,40,50,60,70,80,90,100];
+  labels.forEach(v=>{
+    const pct=v/100;
+    const angle=Math.PI-(pct*Math.PI);
+    const tx=cx+(r+14)*Math.cos(angle);
+    const ty=cy-(r+14)*Math.sin(angle);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',tx);t.setAttribute('y',ty);
+    t.setAttribute('font-family','Arial');t.setAttribute('font-size','6');
+    t.setAttribute('fill',v>=80?'rgba(34,197,94,0.7)':'rgba(255,255,255,0.3)');
+    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+    t.textContent=v;
+    ticks.appendChild(t);
+  });
+
+  // Phase 1: sweep full arc 0→100 over 1.5s
+  const phase1Duration=1500;
+  const start=performance.now();
+  function sweepFull(now){
+    const pct=Math.min(1,(now-start)/phase1Duration);
+    arc.style.strokeDashoffset=267-(pct*267);
+    const angle=Math.PI-(pct*Math.PI);
+    needle.setAttribute('x2',cx+80*Math.cos(angle));
+    needle.setAttribute('y2',cy-80*Math.sin(angle));
+    if(pct<1){requestAnimationFrame(sweepFull);}
+    else{setTimeout(sweepToTarget,200);}
+  }
+  requestAnimationFrame(sweepFull);
+
+  // Phase 2: sweep back to 35 then oscillate 35-42
+  function sweepToTarget(){
+    const target=0.35;const p2Duration=800;const p2Start=performance.now();
+    function backTo35(now){
+      const pct=Math.min(1,(now-p2Start)/p2Duration);
+      const cur=1-(pct*(1-target));
+      arc.style.strokeDashoffset=267-(cur*267);
+      const angle=Math.PI-(cur*Math.PI);
+      needle.setAttribute('x2',cx+80*Math.cos(angle));
+      needle.setAttribute('y2',cy-80*Math.sin(angle));
+      if(pct<1){requestAnimationFrame(backTo35);}
+      else{oscillate();}
+    }
+    requestAnimationFrame(backTo35);
+  }
+
+  // Phase 3: oscillate needle between 35-42
+  function oscillate(){
+    let t=0;
+    function tick(){
+      t+=0.05;
+      const osc=0.35+(0.035*Math.sin(t));
+      const angle=Math.PI-(osc*Math.PI);
+      needle.setAttribute('x2',cx+80*Math.cos(angle));
+      needle.setAttribute('y2',cy-80*Math.sin(angle));
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+}
+setTimeout(()=>{
+  document.getElementById('popup').classList.add('show');
+  setTimeout(animatePopupMeter,200);
+},4000);
+
+// QUIZ
+const Qs=[
+  {l:"Sleep & Recovery",q:"How do you feel when you wake up in the morning?",o:["Refreshed and energetic — ready to go","Okay but takes me a while to get going","Tired, with brain fog or a dull headache that clears after an hour","Exhausted and foggy most mornings — regardless of how long I slept","Like I haven't slept at all — completely drained, foggy and heavy"]},
+  {l:"Energy Through the Day",q:"How would you describe your energy levels during the day?",o:["Consistent and stable throughout","Good in the morning, dips a little in the afternoon","Crashes badly in the afternoon — I need caffeine or sugar","Low all day — I run on caffeine just to function","No energy at all — basic tasks feel exhausting"]},
+  {l:"Stress & Your Body",q:"How does stress show up in your body?",o:["I handle stress well and recover quickly","I get stressed sometimes but bounce back","I feel constantly on edge — like I can't switch off","My body feels wired but exhausted at the same time","I've been in survival mode so long I don't remember feeling calm"]},
+  {l:"Stress & Eating",q:"When you're stressed or overwhelmed, what happens with food?",o:["Nothing changes — I eat normally","I lose my appetite a little","I crave sugary or salty food strongly","I eat for comfort and find it hard to stop","My weight goes up during stressful periods even without eating more"]},
+  {l:"Fat Loss Response",q:"When you go on a calorie deficit diet, what happens to your body?",o:["I lose weight steadily","I lose a little then plateau — even in a clear deficit","I see almost no change no matter how little I eat","I sometimes gain weight even when eating very little","I've been told my metabolism is broken or damaged"]},
+  {l:"After Eating",q:"How do you feel 1–2 hours after a meal?",o:["Fine — satisfied and energetic","Slightly tired but manageable","Very sleepy or foggy — I struggle to focus","Bloated, uncomfortable, or hungry again very quickly","My energy completely crashes after eating"]},
+  {l:"Digestion & Gut",q:"How would you describe your digestion?",o:["Comfortable and consistent","Occasional bloating or irregularity","Frequent bloating, gas or discomfort","Chronic issues — IBS, constipation or diarrhoea","My gut feels like it's constantly reacting to everything"]},
+  {l:"Mental Clarity",q:"How clear does your mind feel on a typical day?",o:["Sharp and focused — I think clearly","Occasional brain fog usually tied to poor sleep","Often foggy — especially in the afternoons after meals","Struggling to concentrate most of the time","Constant fog — I can't remember things or think straight"]},
+  {l:"History with Programmes",q:"When you start a new diet or fitness programme, what usually happens?",o:["I stay consistent and see results","I start well but life gets in the way after a few weeks","My motivation disappears completely after the initial push","I've tried so many things I've stopped believing they'll work","I sabotage myself every time I start seeing results"]},
+  {l:"How You Feel Right Now",q:"How do you feel about your body's ability to change?",o:["Optimistic — I know it's possible","Hopeful but a little worried","Frustrated — I've tried so hard for so long","Disconnected from my body — I don't recognise it anymore","I genuinely feel like my body is working against me"]}
+];
+const lmap={0:1,1:1,2:2,3:2,4:3,5:3,6:4,7:4,8:5,9:5};
+const ansScores=[10,7,4,2,0];
+const sc={1:0,2:0,3:0,4:0,5:0};
+let totalScore=0;
+const scoreBands=[
+  {min:75,max:100,color:"#22C55E",label:"MILD RESISTANCE",desc:"One layer is slightly off — and that's actually a good sign. Your body is still responsive. Targeted work here tends to move things relatively quickly."},
+  {min:50,max:74,color:"#F59E0B",label:"MODERATE DYSFUNCTION",desc:"A couple of layers seem to be working against each other. This is probably why things have slowed down — and why trying harder hasn't been the answer."},
+  {min:25,max:49,color:"#EF4444",label:"SIGNIFICANT DYSFUNCTION",desc:"A few things seem to be running at the same time — which is probably why things have felt so difficult lately. This isn't about effort. The root cause runs deeper."},
+  {min:0,max:24,color:"#991B1B",label:"SEVERE SUPPRESSION",desc:"Your body is working really hard just to keep up right now. This level of metabolic load explains why even medication may not have been enough — the environment needs to change first."}
+];
+const res={
+  1:{t:"Your Sleep & Recovery System Is Breaking First.",d:"Your body isn't getting the biological reset it needs at night. When sleep is disrupted, every hormone involved in fat metabolism is affected — before the day even begins."},
+  2:{t:"Your Stress Response Is The Primary Blocker.",d:"Your nervous system is likely stuck in a protective mode right now. When the body feels under threat, holding onto fat is actually its way of keeping you safe. No amount of eating less overrides that signal."},
+  3:{t:"Your Metabolic Engine Has Slowed Down.",d:"During this phase, eating less probably isn't the best strategy — your body needs a different signal, not less fuel. It's lost its ability to access fat for energy efficiently, and that's what needs to change first."},
+  4:{t:"Your Gut Is Disrupting Everything Above It.",d:"Inflammation and digestive imbalance are quietly interfering with your hormones, appetite signals, and even your ability to think clearly. This layer tends to affect all the others."},
+  5:{t:"Your Relationship With Your Body Is Holding You Back.",d:"This isn't a willpower issue — not even close. Your body has been in dysfunction long enough that it's now showing up in how you feel about change. This layer rebuilds from the ground up, and it does rebuild."}
+};
+let cur=0,sel=new Set();
+const history=[];
+function build(){
+  const p=document.getElementById('qprog');p.innerHTML='';
+  for(let i=0;i<Qs.length;i++){const d=document.createElement('div');d.className='qd'+(i<cur?' done':i===cur?' active':'');p.appendChild(d);}
+  document.getElementById('qlt').textContent=Qs[cur].l;
+  document.getElementById('qq').textContent=Qs[cur].q;
+  document.getElementById('qctr').textContent=(cur+1)+' of '+Qs.length;
+  document.getElementById('bbk').className=cur>0?'bbk on':'bbk';
+  const o=document.getElementById('qopts');o.innerHTML='';
+  sel=new Set();
+  document.getElementById('bnxt').className='bnxt';
+  Qs[cur].o.forEach((t,i)=>{
+    const b=document.createElement('button');b.className='qo';
+    b.innerHTML='<span class="qcb"></span>'+t;
+    b.onclick=()=>tog(b,i);o.appendChild(b);
+  });
+}
+function tog(b,i){
+  if(sel.has(i)){sel.delete(i);b.classList.remove('sel');b.querySelector('.qcb').textContent='';}
+  else{sel.add(i);b.classList.add('sel');b.querySelector('.qcb').textContent='✓';}
+  document.getElementById('bnxt').className=sel.size>0?'bnxt on':'bnxt';
+}
+function nextQ(){
+  if(!sel.size)return;
+  const layer=lmap[cur];
+  const minScore=Math.min(...Array.from(sel).map(i=>ansScores[i]));
+  history.push({layer,score:minScore,total:minScore});
+  sc[layer]+=minScore;totalScore+=minScore;
+  cur++;if(cur>=Qs.length){showRes();return;}build();
+}
+function prevQ(){
+  if(cur===0)return;
+  cur--;
+  const prev=history.pop();
+  sc[prev.layer]-=prev.score;
+  totalScore-=prev.score;
+  build();
+}
+function getBand(s){return scoreBands.find(b=>s>=b.min&&s<=b.max)||scoreBands[3]}
+function showRes(){
+  document.getElementById('qmain').style.display='none';
+  document.getElementById('rb').style.display='block';
+  let ml=1,ms=999;
+  for(let l=1;l<=5;l++){if(sc[l]<ms){ms=sc[l];ml=l;}}
+  const band=getBand(totalScore);
+  document.getElementById('rtitle').textContent=res[ml].t;
+  document.getElementById('rdesc').textContent=res[ml].d;
+  document.getElementById('f-result').value=res[ml].t+' | Score: '+totalScore+'/100';
+  const gc=document.getElementById('gauge-container');
+  gc.innerHTML=`<div style="text-align:center;margin-bottom:1.5rem;background:linear-gradient(135deg,#0A0A0A 0%,#1A1A1A 100%);border-radius:12px;padding:1.75rem 1rem 1.25rem">
+    <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.18em;color:${band.color};font-weight:700;margin-bottom:.75rem">Your Metabolic Permission Score™</div>
+    <svg viewBox="0 0 200 120" style="width:100%;max-width:280px;display:block;margin:0 auto" id="gaugesvg">
+      <defs>
+        <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#991B1B"/>
+          <stop offset="33%" style="stop-color:#EF4444"/>
+          <stop offset="66%" style="stop-color:#F59E0B"/>
+          <stop offset="100%" style="stop-color:#22C55E"/>
+        </linearGradient>
+      </defs>
+      <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="18" stroke-linecap="round"/>
+      <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="url(#gg)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" id="gaugeArc"/>
+      <line x1="100" y1="105" x2="20" y2="105" id="gaugeNeedle" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="100" cy="105" r="6" fill="#FFFFFF"/>
+      <circle cx="100" cy="105" r="3" fill="#0A0A0A"/>
+      <text x="18" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">0</text>
+      <text x="100" y="18" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">50</text>
+      <text x="182" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">100</text>
+    </svg>
+    <div style="font-size:4rem;font-weight:900;color:${band.color};line-height:1;margin:.5rem 0;text-shadow:0 0 30px ${band.color}44" id="gaugeScore">—</div>
+    <div style="font-size:.65rem;color:rgba(255,255,255,0.4);margin-bottom:.75rem;letter-spacing:.08em">out of 100</div>
+    <div style="display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#fff;background:${band.color};padding:.35rem 1.1rem;border-radius:4px" id="gaugeLabel">${band.label}</div>
+    <div style="background:rgba(255,255,255,0.06);border-left:3px solid ${band.color};padding:.875rem 1rem;border-radius:0 6px 6px 0;margin:1rem 0;text-align:left">
+      <p style="font-size:.85rem;color:rgba(255,255,255,0.8);margin:0;line-height:1.75">${band.desc}</p>
+    </div>
+  </div>`;
+  animateGauge(totalScore,band.color);
+}
+function animateGauge(finalScore,finalColor){
+  const needle=document.getElementById('gaugeNeedle');
+  const arc=document.getElementById('gaugeArc');
+  const scoreEl=document.getElementById('gaugeScore');
+  if(!needle||!arc)return;
+  const totalLen=251.2;
+  function scoreToAngle(s){return Math.PI-(s/100*Math.PI);}
+  function needlePos(s){
+    const a=scoreToAngle(s);
+    return{x:100+70*Math.cos(a),y:105-70*Math.sin(a)};
+  }
+  function arcOffset(s){return totalLen-(s/100*totalLen);}
+  function colorAt(s){
+    if(s>=75)return'#22C55E';
+    if(s>=50)return'#F59E0B';
+    if(s>=25)return'#EF4444';
+    return'#991B1B';
+  }
+  // 3 swings: 0→90, 30→80, then settles to finalScore
+  const swings=[
+    {from:0,to:90,dur:1200},
+    {from:30,to:80,dur:800},
+    {from:finalScore>10?finalScore-10:0,to:finalScore,dur:600}
+  ];
+  let swingIdx=0,startTime=null;
+  function runSwing(ts){
+    if(!startTime)startTime=ts;
+    const sw=swings[swingIdx];
+    const elapsed=ts-startTime;
+    const t=Math.min(elapsed/sw.dur,1);
+    const ease=t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+    const cur=sw.from+(sw.to-sw.from)*ease;
+    const pos=needlePos(cur);
+    needle.setAttribute('x2',pos.x);
+    needle.setAttribute('y2',pos.y);
+    arc.setAttribute('stroke-dashoffset',arcOffset(cur));
+    arc.setAttribute('stroke',colorAt(cur));
+    if(t<1){requestAnimationFrame(runSwing);}
+    else{
+      swingIdx++;
+      if(swingIdx<swings.length){startTime=null;requestAnimationFrame(runSwing);}
+      else{
+        const fp=needlePos(finalScore);
+        needle.setAttribute('x2',fp.x);needle.setAttribute('y2',fp.y);
+        arc.setAttribute('stroke-dashoffset',arcOffset(finalScore));
+        arc.setAttribute('stroke',finalColor);
+        scoreEl.textContent=finalScore;
+      }
+    }
+  }
+  requestAnimationFrame(runSwing);
+}
+function handleForm(e){
+  e.preventDefault();
+  fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}})
+  .then(r=>{
+    if(r.ok){document.getElementById('gf').style.display='none';document.getElementById('sm').style.display='block';}
+    else{alert('Something went wrong. Please try again.');}
+  }).catch(()=>alert('Network error. Please try again.'));
+}
+build();
+</script>
+</body>
+</html>

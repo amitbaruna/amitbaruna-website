@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Layer 1 Diagnostic — Circadian Authority</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#0A0A0A;--dark:#111111;--card:#1A1A1A;--red:#D42B2B;--red2:#FF3B3B;--white:#FFFFFF;--off:#F7F7F7;--ink:#1A1A1A;--ink2:#444;--ink3:#888;--bdr:rgba(0,0,0,0.08);--rl:rgba(212,43,43,0.08);--rb:rgba(212,43,43,0.2)}
+html{scroll-behavior:smooth}
+body{font-family:'Arial',sans-serif;background:var(--white);color:var(--ink);line-height:1.7;overflow-x:hidden;min-height:100vh}
+
+nav{position:sticky;top:0;z-index:99;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.07);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{text-decoration:none;display:block;flex-shrink:0}
+.nav-logo img{width:36px;height:36px;border-radius:4px;display:block}
+.nav-back{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888;text-decoration:none}
+.nav-back:hover{color:#fff}
+
+/* HERO */
+.hero{background:var(--black);padding:3rem 1.5rem 2.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.layer-badge{display:inline-block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--red);border:1px solid rgba(212,43,43,0.4);padding:.3rem .875rem;border-radius:3px;margin-bottom:1rem}
+.hero h1{font-size:clamp(1.4rem,4vw,2.2rem);font-weight:900;color:#fff;text-transform:uppercase;line-height:1.15;margin-bottom:.75rem}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:.88rem;color:#888;max-width:480px;margin:0 auto;line-height:1.8}
+
+/* PROGRESS */
+.prog-wrap{background:var(--black);padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:57px;z-index:88}
+.prog-inner{max-width:580px;margin:0 auto}
+.prog-bar{display:flex;gap:4px;margin-bottom:.4rem}
+.pb{height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,0.08);transition:background .3s}
+.pb.done{background:var(--red)}
+.pb.active{background:var(--red2)}
+.prog-label{font-size:.65rem;color:#555;text-align:right;letter-spacing:.06em}
+
+/* QUIZ CONTAINER */
+.quiz-wrap{max-width:580px;margin:0 auto;padding:2.5rem 1.5rem}
+
+/* QUESTION */
+.q-layer{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--red);font-weight:700;margin-bottom:.5rem}
+.q-text{font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:.35rem;text-transform:uppercase}
+.q-hint{font-size:.75rem;color:var(--ink3);margin-bottom:1.5rem}
+.q-opts{display:flex;flex-direction:column;gap:.5rem}
+.qo{font-size:.88rem;color:var(--ink2);background:var(--off);border:1.5px solid var(--bdr);border-radius:6px;padding:.875rem 1rem;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:flex-start;gap:.75rem;line-height:1.5}
+.qo:hover{border-color:var(--red);background:var(--rl)}
+.qo.sel{border-color:var(--red);background:var(--rl);color:var(--ink)}
+.qcb{width:16px;height:16px;border-radius:4px;border:1.5px solid #CCC;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;background:#fff;margin-top:2px}
+.qo.sel .qcb{background:var(--red);border-color:var(--red);color:#fff}
+
+/* NAV BUTTONS */
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--bdr)}
+.q-ctr{font-size:.73rem;color:var(--ink3)}
+.btn-back{background:none;color:var(--ink3);padding:.65rem 1.25rem;border-radius:4px;border:1.5px solid var(--bdr);cursor:pointer;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:none}
+.btn-back.show{display:block}
+.btn-back:hover{border-color:#999;color:var(--ink)}
+.btn-next{background:var(--red);color:#fff;padding:.65rem 1.75rem;border-radius:4px;border:none;cursor:pointer;font-size:.82rem;font-weight:700;opacity:.3;pointer-events:none;transition:opacity .2s;text-transform:uppercase;letter-spacing:.06em}
+.btn-next.on{opacity:1;pointer-events:all}
+.btn-next:hover{background:#B02020}
+
+/* CONDITION QUESTION */
+.cond-wrap{max-width:580px;margin:0 auto;padding:2.5rem 1.5rem;display:none}
+.cond-title{font-size:1rem;font-weight:700;color:var(--ink);text-transform:uppercase;margin-bottom:.35rem}
+.cond-sub{font-size:.82rem;color:var(--ink3);margin-bottom:1.5rem}
+.cond-opts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.5rem}
+@media(max-width:480px){.cond-opts{grid-template-columns:1fr}}
+.co{font-size:.82rem;color:var(--ink2);background:var(--off);border:1.5px solid var(--bdr);border-radius:6px;padding:.75rem 1rem;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:.6rem}
+.co:hover{border-color:var(--red);background:var(--rl)}
+.co.sel{border-color:var(--red);background:var(--rl)}
+.co-cb{width:14px;height:14px;border-radius:3px;border:1.5px solid #CCC;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;background:#fff}
+.co.sel .co-cb{background:var(--red);border-color:var(--red);color:#fff}
+.btn-cond-next{background:var(--red);color:#fff;padding:.75rem 2rem;border-radius:4px;border:none;cursor:pointer;font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;width:100%}
+.btn-cond-skip{display:block;text-align:center;font-size:.75rem;color:var(--ink3);margin-top:.875rem;cursor:pointer;text-decoration:underline;background:none;border:none;width:100%}
+
+/* SCORE REVEAL */
+.score-wrap{max-width:580px;margin:0 auto;padding:2.5rem 1.5rem;display:none}
+.gauge-box{background:linear-gradient(135deg,#0A0A0A 0%,#1A1A1A 100%);border-radius:12px;padding:2rem 1.5rem 1.5rem;text-align:center;margin-bottom:1.5rem}
+.gauge-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.18em;color:var(--red);font-weight:700;margin-bottom:.875rem}
+
+/* FORM WALL */
+.form-wall{background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
+.form-wall h3{font-size:.95rem;font-weight:700;color:var(--ink);text-transform:uppercase;margin-bottom:.35rem}
+.form-wall p{font-size:.82rem;color:var(--ink3);margin-bottom:1.25rem;line-height:1.6}
+.form-fields{display:flex;flex-direction:column;gap:.6rem}
+.form-fields input{font-size:.88rem;background:#fff;border:1.5px solid #CCC;border-radius:4px;padding:.75rem 1rem;color:var(--ink);outline:none;width:100%}
+.form-fields input:focus{border-color:var(--red)}
+.form-fields input::placeholder{color:#AAA}
+.btn-unlock{background:var(--red);color:#fff;padding:.875rem 1.25rem;border-radius:4px;border:none;cursor:pointer;font-size:.88rem;font-weight:700;width:100%;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem}
+.btn-unlock:hover{background:#B02020}
+
+/* RESULT */
+.result-wrap{display:none}
+.result-band{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#fff;padding:.35rem 1.1rem;border-radius:4px;margin-bottom:1rem}
+.result-desc{background:rgba(255,255,255,0.06);border-radius:0 6px 6px 0;padding:.875rem 1rem;margin:1rem 0;text-align:left}
+.result-desc p{font-size:.85rem;color:rgba(255,255,255,0.8);margin:0;line-height:1.75}
+.result-card{background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1.5rem;margin-bottom:1rem}
+.result-card-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--red);font-weight:700;margin-bottom:.5rem;display:block}
+.result-card h3{font-size:.95rem;font-weight:900;color:var(--ink);text-transform:uppercase;margin-bottom:.5rem;line-height:1.3}
+.result-card p{font-size:.84rem;color:var(--ink2);line-height:1.75;margin:0}
+.condition-flag{background:#fff;border:1px solid var(--bdr);border-left:3px solid var(--red);border-radius:0 6px 6px 0;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.condition-flag-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-weight:700;margin-bottom:.5rem;display:block}
+.condition-flag h4{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:.4rem}
+.condition-flag p{font-size:.82rem;color:var(--ink2);line-height:1.7;margin:0}
+.referral-box{background:var(--rl);border:1px solid var(--rb);border-radius:6px;padding:1.25rem;margin-bottom:1.5rem}
+.referral-box p{font-size:.82rem;color:var(--ink);line-height:1.7;margin:0}
+.referral-box strong{color:var(--red)}
+.cta-box{background:var(--red);border-radius:8px;padding:1.75rem 1.5rem;text-align:center;margin-top:1.5rem}
+.cta-box h3{font-size:1rem;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:.5rem;line-height:1.3}
+.cta-box p{font-size:.82rem;color:rgba(255,255,255,0.8);margin-bottom:1.25rem;line-height:1.6}
+.btn-cta{display:inline-block;background:#fff;color:var(--red);padding:.875rem 2rem;border-radius:4px;font-size:.88rem;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:.06em}
+.btn-cta:hover{background:#f0f0f0}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="favicon.png" alt="AB"></a>
+  <a href="diagnostic.html" class="nav-back">← Back to Diagnostic Tools</a>
+</nav>
+
+<div class="hero">
+  <span class="layer-badge">Diagnostic Tool · Layer 1 of 5</span>
+  <h1>Circadian <em>Authority</em></h1>
+  <p>9 questions about your sleep, energy rhythm and recovery. Select all that apply to you honestly — there are no wrong answers.</p>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-inner">
+    <div class="prog-bar" id="progBar"></div>
+    <div class="prog-label" id="progLabel">Question 1 of 9</div>
+  </div>
+</div>
+
+<!-- PROFILE SCREEN -->
+<div class="cond-wrap" id="profileWrap" style="display:block">
+  <div class="cond-title">Before we begin — tell us a little about yourself</div>
+  <div class="cond-sub">This helps us give you a more accurate and relevant result.</div>
+
+  <div style="margin-bottom:1.25rem">
+    <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:.6rem">Gender</div>
+    <div class="cond-opts" id="genderOpts"></div>
+  </div>
+
+  <div style="margin-bottom:1.25rem">
+    <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:.6rem">Age Range</div>
+    <div class="cond-opts" id="ageOpts"></div>
+  </div>
+
+  <div style="margin-bottom:1.5rem">
+    <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:.6rem">Physical Activity Level</div>
+    <div class="cond-opts" id="activityOpts"></div>
+  </div>
+
+  <button class="btn-cond-next" id="btnStartQuiz" onclick="startQuiz()" style="opacity:.3;pointer-events:none">Start The Diagnostic →</button>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap" id="quizWrap" style="display:none">
+  <div class="q-layer" id="qLayer"></div>
+  <div class="q-text" id="qText"></div>
+  <div class="q-hint">Select all that apply to you</div>
+  <div class="q-opts" id="qOpts"></div>
+  <div class="q-nav">
+    <button class="btn-back" id="btnBack" onclick="prevQ()">← Back</button>
+    <span class="q-ctr" id="qCtr"></span>
+    <button class="btn-next" id="btnNext" onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<!-- FEMALE CYCLE QUESTION -->
+<div class="cond-wrap" id="cycleWrap" style="display:none">
+  <div class="cond-title">One more question</div>
+  <div class="cond-sub">This helps us give you a more precise result based on your hormonal cycle.</div>
+  <div class="cond-opts" id="cycleOpts"></div>
+  <button class="btn-cond-next" onclick="showCondition()">Continue →</button>
+  <button class="btn-cond-skip" onclick="showCondition()">Skip this question</button>
+</div>
+
+<!-- CONDITION QUESTION -->
+<div class="cond-wrap" id="condWrap" style="display:none">
+  <div class="cond-title">One last thing before your result</div>
+  <div class="cond-sub">Do you have any known medical conditions? Select all that apply — this helps us give you a more accurate result. You can skip this if you prefer.</div>
+  <div class="cond-opts" id="condOpts"></div>
+  <button class="btn-cond-next" onclick="showScore()">See My Result →</button>
+  <button class="btn-cond-skip" onclick="showScore()">Skip this question</button>
+</div>
+
+<!-- SCORE + FORM + RESULT -->
+<div class="score-wrap" id="scoreWrap">
+  <div class="gauge-box">
+    <div class="gauge-label">Your Circadian Authority Score</div>
+    <svg viewBox="0 0 200 120" style="width:100%;max-width:280px;display:block;margin:0 auto" id="gaugeSvg">
+      <defs>
+        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#991B1B"/>
+          <stop offset="33%" style="stop-color:#EF4444"/>
+          <stop offset="66%" style="stop-color:#F59E0B"/>
+          <stop offset="100%" style="stop-color:#22C55E"/>
+        </linearGradient>
+      </defs>
+      <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="18" stroke-linecap="round"/>
+      <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="url(#gaugeGrad)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" id="gaugeArc"/>
+      <line x1="100" y1="105" x2="20" y2="105" id="gaugeNeedle" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="100" cy="105" r="6" fill="#FFFFFF"/>
+      <circle cx="100" cy="105" r="3" fill="#0A0A0A"/>
+      <text x="18" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">0</text>
+      <text x="100" y="18" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">45</text>
+      <text x="182" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">90</text>
+    </svg>
+    <div style="font-size:4rem;font-weight:900;line-height:1;margin:.5rem 0" id="gaugeScore">—</div>
+    <div style="font-size:.65rem;color:rgba(255,255,255,0.4);margin-bottom:.75rem;letter-spacing:.08em">out of 90</div>
+    <div id="gaugeBandLabel"></div>
+    <div class="result-desc" id="bandDesc" style="display:none"><p id="bandDescText"></p></div>
+  </div>
+
+  <!-- FORM WALL -->
+  <div class="form-wall" id="formWall">
+    <h3>Your full result is ready</h3>
+    <p>Enter your details — I'll send your full layer breakdown on WhatsApp personally.</p>
+    <form class="form-fields" id="resultForm" action="https://formspree.io/f/mwvjprbq" method="POST" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="Layer" value="Layer 1 — Circadian Authority"/>
+      <input type="hidden" name="Score" id="fScore"/>
+      <input type="hidden" name="Band" id="fBand"/>
+      <input type="hidden" name="Conditions" id="fConditions"/>
+      <input type="hidden" name="Profile" id="fProfile"/>
+      <input type="text" name="Name" placeholder="Your name" required/>
+      <input type="tel" name="WhatsApp" placeholder="Your WhatsApp number" required/>
+      <input type="email" name="Email" placeholder="Your email address" required/>
+      <button type="submit" class="btn-unlock">Unlock My Full Result →</button>
+    </form>
+  </div>
+
+  <!-- RESULT (shown after form submit) -->
+  <div class="result-wrap" id="resultReveal">
+    <div class="result-card" id="primaryCard">
+      <span class="result-card-label">Your Primary Finding</span>
+      <h3 id="primaryTitle"></h3>
+      <p id="primaryDesc"></p>
+    </div>
+    <div class="result-card" id="rootCard">
+      <span class="result-card-label">What's Actually Happening</span>
+      <h3 id="rootTitle"></h3>
+      <p id="rootDesc"></p>
+    </div>
+    <div id="conditionFlags"></div>
+    <div id="referralBlock"></div>
+    <div class="cta-box">
+      <h3>Want to understand what to fix first?</h3>
+      <p>Book a strategy call with Amit — 30 minutes to understand your root cause and what to do about it in your specific case.</p>
+      <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank" class="btn-cta">Book a Strategy Call with Amit</a>
+    </div>
+    <div style="background:var(--off);border:1px solid var(--bdr);border-radius:6px;padding:1.25rem 1.5rem;margin-top:1.5rem;text-align:center">
+      <p style="font-size:.72rem;color:var(--ink3);line-height:1.8"><strong style="color:var(--ink2)">Important:</strong> This is not a medical diagnostic. It is a clinical symptom pattern tool designed to help identify which biological layer may need attention — and to guide a deeper conversation. Always consult a qualified physician for any health concerns.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const Qs=[
+  {l:"Waking State",q:"Be honest — what's your morning actually like?",o:["I wake up fresh, feeling good","Takes me a bit but I get going","I have to push myself out of bed — sleep never feels enough","Wake up with a heavy head or headache most mornings","Wake up but feel nothing — no energy, no motivation, just empty"]},
+  {l:"Sleep Onset",q:"When you go to sleep and lie down on your bed, what usually happens?",o:["I'm out within 15 minutes, no drama","I scroll my phone a bit but sleep comes within an hour","My mind won't stop — takes me well over an hour most nights","I lie there thinking about everything — work, family, things I said years ago","Some nights I crash from exhaustion, other nights I'm just awake. No in between."]},
+  {l:"Night Waking",q:"Do you wake up in between your sleep?",o:["Rarely — I sleep through most nights","Sometimes, but I fall back to sleep quickly","Most nights I wake up at least once and it takes a while to go back","I wake up multiple times — feel like I barely slept by morning","I wake up so often it barely feels like sleep at all — sometimes I just give up"]},
+  {l:"Evening Energy",q:"What happens to your energy at night?",o:["I naturally feel sleepy and wind down","Tired but okay — I sleep fine","I somehow feel more energetic by late evening — I'm more productive at night","I feel exhausted but just can't switch off — tired and wired, body won't let me rest","I find it difficult to sleep, end up on social media for an hour or more before I can finally sleep"]},
+  {l:"Morning Start",q:"What do you need in the first hour after waking to feel functional?",o:["Nothing really — I feel okay naturally","One chai or coffee and I'm good","Two coffees minimum before I feel like a person","Caffeine and something sweet — and I'm still not fully there","Nothing helps — I just push through feeling terrible every morning"]},
+  {l:"After Lunch",q:"How do you feel after lunch?",o:["I feel fine — steady energy, no crash","Slightly tired but it passes quickly","I hit a wall — foggy, sleepy, need chai or coffee to get through","I crash badly — hard to focus, sometimes need to lie down","My entire afternoon is a write-off — I just push through on caffeine until evening"]},
+  {l:"Sleep Hours vs Feeling",q:"Does sleeping more actually help you feel better?",o:["Yes — when I sleep well I feel it the next day","Sometimes — it's not always consistent","Not really — even 8 hours doesn't leave me feeling rested","No — I sleep long hours and still wake up exhausted","More sleep makes me feel worse sometimes — I feel more groggy after long sleep"]},
+  {l:"Weekend Sleep Pattern",q:"How does your sleep pattern look on weekends?",o:["Same as weekdays — I sleep and wake at the same time","I sleep around the same time but wake up about an hour later","I like to sleep in — usually 1–2 extra hours on weekends","I sleep late and wake up late — completely different from weekdays","I have no fixed pattern — weekends and weekdays are all over the place"]},
+  {l:"Hunger Timing",q:"When do you feel most hungry during the day?",o:["Morning — I'm hungry within an hour of waking","Midday — lunchtime is when I'm most hungry","Late afternoon — hunger builds through the day","Evening — I'm most hungry after 7pm","Late night — my strongest hunger hits after 9pm"]}
+];
+
+const conditions=[
+  "Type 2 Diabetes or Pre-diabetes",
+  "PMOS (Polycystic Metabolic Ovarian Syndrome)",
+  "Thyroid condition",
+  "Perimenopause or Menopause",
+  "Hypertension",
+  "On GLP-1 medication (Ozempic / Mounjaro)",
+  "No known condition",
+  "Prefer not to say"
+];
+
+const ansScores=[10,7,4,2,0];
+let cur=0,sel=new Set(),history=[],totalScore=0,selectedConditions=[];
+let userGender='',userAge='',userActivity='',userCycle='';
+
+// PROFILE SCREEN
+const genders=['Male','Female','Prefer not to say'];
+const ages=['Under 30','30–40','40–50','50+'];
+const activities=['Sedentary — mostly sitting, little movement','Lightly active — some walking, occasional exercise','Moderately active — exercise 3–4 times a week','Very active — daily training or physical job'];
+const cycles=['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','Currently experiencing perimenopause symptoms','Post-menopause','On hormonal contraception','Prefer not to say'];
+
+function buildSingleSelect(containerId, options, onSelect){
+  const c=document.getElementById(containerId);c.innerHTML='';
+  options.forEach((o,i)=>{
+    const b=document.createElement('button');b.className='co';
+    b.innerHTML='<span class="co-cb"></span>'+o;
+    b.onclick=()=>{
+      c.querySelectorAll('.co').forEach(el=>{el.classList.remove('sel');el.querySelector('.co-cb').textContent='';});
+      b.classList.add('sel');b.querySelector('.co-cb').textContent='✓';
+      onSelect(o,i);
+      checkProfileComplete();
+    };
+    c.appendChild(b);
+  });
+}
+
+function checkProfileComplete(){
+  const ready=userGender&&userAge&&userActivity;
+  const btn=document.getElementById('btnStartQuiz');
+  btn.style.opacity=ready?'1':'0.3';
+  btn.style.pointerEvents=ready?'all':'none';
+}
+
+function startQuiz(){
+  document.getElementById('profileWrap').style.display='none';
+  document.getElementById('quizWrap').style.display='block';
+  buildQ();
+}
+
+// Build progress bar
+function buildProg(){
+  const bar=document.getElementById('progBar');bar.innerHTML='';
+  for(let i=0;i<Qs.length;i++){const d=document.createElement('div');d.className='pb'+(i<cur?' done':i===cur?' active':'');bar.appendChild(d);}
+  document.getElementById('progLabel').textContent='Question '+(cur+1)+' of '+Qs.length;
+}
+
+function buildQ(){
+  buildProg();
+  document.getElementById('qLayer').textContent=Qs[cur].l;
+  document.getElementById('qText').textContent=Qs[cur].q;
+  document.getElementById('qCtr').textContent=(cur+1)+' of '+Qs.length;
+  document.getElementById('btnBack').className=cur>0?'btn-back show':'btn-back';
+  const o=document.getElementById('qOpts');o.innerHTML='';
+  sel=new Set();
+  document.getElementById('btnNext').className='btn-next';
+  Qs[cur].o.forEach((t,i)=>{
+    const b=document.createElement('button');b.className='qo';
+    b.innerHTML='<span class="qcb"></span>'+t;
+    b.onclick=()=>tog(b,i);o.appendChild(b);
+  });
+}
+
+function tog(b,i){
+  if(sel.has(i)){sel.delete(i);b.classList.remove('sel');b.querySelector('.qcb').textContent='';}
+  else{sel.add(i);b.classList.add('sel');b.querySelector('.qcb').textContent='✓';}
+  document.getElementById('btnNext').className=sel.size>0?'btn-next on':'btn-next';
+}
+
+function nextQ(){
+  if(!sel.size)return;
+  const minScore=Math.min(...Array.from(sel).map(i=>ansScores[i]));
+  history.push({score:minScore});
+  totalScore+=minScore;
+  cur++;
+  if(cur>=Qs.length){
+    if(userGender==='Female'){showCycleQ();}
+    else{showCondition();}
+    return;
+  }
+  buildQ();
+}
+
+function showCycleQ(){
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('cycleWrap').style.display='block';
+  const opts=document.getElementById('cycleOpts');opts.innerHTML='';
+  cycles.forEach((c,i)=>{
+    const b=document.createElement('button');b.className='co';
+    b.innerHTML='<span class="co-cb"></span>'+c;
+    b.onclick=()=>{
+      opts.querySelectorAll('.co').forEach(el=>{el.classList.remove('sel');el.querySelector('.co-cb').textContent='';});
+      b.classList.add('sel');b.querySelector('.co-cb').textContent='✓';
+      userCycle=c;
+    };
+    opts.appendChild(b);
+  });
+}
+
+function prevQ(){
+  if(cur===0)return;
+  cur--;
+  const prev=history.pop();
+  totalScore-=prev.score;
+  buildQ();
+}
+
+// CONDITION QUESTION
+function showCondition(){
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('cycleWrap').style.display='none';
+  document.getElementById('condWrap').style.display='block';
+  const opts=document.getElementById('condOpts');opts.innerHTML='';
+  const isFemale=userGender==='Female';
+  const femaleOnly=[1,3]; // PMOS=1, Perimenopause=3
+  conditions.forEach((c,i)=>{
+    if(!isFemale&&femaleOnly.includes(i))return; // hide female-specific for males
+    const b=document.createElement('button');b.className='co';
+    b.innerHTML='<span class="co-cb"></span>'+c;
+    b.onclick=()=>togCond(b,i);opts.appendChild(b);
+  });
+}
+
+function togCond(b,i){
+  const isExclusive=i>=6;
+  if(isExclusive){
+    document.querySelectorAll('.co').forEach((el,idx)=>{
+      if(idx!==i){el.classList.remove('sel');el.querySelector('.co-cb').textContent='';}
+    });
+    selectedConditions=[i];
+    b.classList.toggle('sel');
+    b.querySelector('.co-cb').textContent=b.classList.contains('sel')?'✓':'';
+    if(!b.classList.contains('sel'))selectedConditions=[];
+  } else {
+    document.querySelectorAll('.co').forEach((el,idx)=>{
+      if(idx>=6){el.classList.remove('sel');el.querySelector('.co-cb').textContent='';}
+    });
+    selectedConditions=selectedConditions.filter(x=>x<6);
+    if(selectedConditions.includes(i)){
+      selectedConditions=selectedConditions.filter(x=>x!==i);
+      b.classList.remove('sel');b.querySelector('.co-cb').textContent='';
+    } else {
+      selectedConditions.push(i);
+      b.classList.add('sel');b.querySelector('.co-cb').textContent='✓';
+    }
+  }
+}
+
+// SCORE REVEAL
+function showScore(){
+  document.getElementById('condWrap').style.display='none';
+  document.getElementById('scoreWrap').style.display='block';
+  document.getElementById('fScore').value=totalScore;
+  document.getElementById('fBand').value='';
+  document.getElementById('fConditions').value=selectedConditions.map(i=>conditions[i]).join(', ')||'Not specified';
+  // Add profile data to form
+  const profileField=document.getElementById('fProfile');
+  if(profileField)profileField.value=`Gender: ${userGender} | Age: ${userAge} | Activity: ${userActivity} | Cycle: ${userCycle||'N/A'}`;
+  animateGauge(totalScore);
+}
+
+const maxScore=90;
+const bands=[
+  {min:68,max:90,color:'#22C55E',label:'WELL ALIGNED',desc:"Your circadian rhythm is largely working for you. There may be minor areas to optimise but your body's internal clock is broadly in sync."},
+  {min:45,max:67,color:'#F59E0B',label:'MILDLY DISRUPTED',desc:"Some signals suggest your rhythm is off in places. You may notice it in your energy, sleep quality or how you feel in the mornings — even if it's not severe yet."},
+  {min:23,max:44,color:'#EF4444',label:'SIGNIFICANTLY DISRUPTED',desc:"Your circadian rhythm is clearly struggling. This is likely affecting your energy, sleep, mood and your body's ability to burn fat efficiently."},
+  {min:0,max:22,color:'#991B1B',label:'SEVERELY MISALIGNED',desc:"Your internal clock is significantly off. This level of disruption affects every metabolic process in your body — and is likely the hidden driver behind symptoms you've been trying to fix elsewhere."}
+];
+
+function getBand(s){return bands.find(b=>s>=b.min&&s<=b.max)||bands[3];}
+
+function colorAt(s){
+  const pct=s/maxScore;
+  if(pct>=0.75)return'#22C55E';
+  if(pct>=0.5)return'#F59E0B';
+  if(pct>=0.25)return'#EF4444';
+  return'#991B1B';
+}
+
+function animateGauge(finalScore){
+  const needle=document.getElementById('gaugeNeedle');
+  const arc=document.getElementById('gaugeArc');
+  const scoreEl=document.getElementById('gaugeScore');
+  const totalLen=251.2;
+  function toAngle(s){return Math.PI-(s/maxScore*Math.PI);}
+  function needlePos(s){const a=toAngle(s);return{x:100+70*Math.cos(a),y:105-70*Math.sin(a)};}
+  function arcOff(s){return totalLen-(s/maxScore*totalLen);}
+  const swings=[
+    {from:0,to:85,dur:1200},
+    {from:30,to:75,dur:800},
+    {from:Math.max(0,finalScore-8),to:finalScore,dur:600}
+  ];
+  let swingIdx=0,startTime=null;
+  function run(ts){
+    if(!startTime)startTime=ts;
+    const sw=swings[swingIdx];
+    const t=Math.min((ts-startTime)/sw.dur,1);
+    const ease=t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+    const cur=sw.from+(sw.to-sw.from)*ease;
+    const pos=needlePos(cur);
+    needle.setAttribute('x2',pos.x);needle.setAttribute('y2',pos.y);
+    arc.setAttribute('stroke-dashoffset',arcOff(cur));
+    arc.setAttribute('stroke',colorAt(cur));
+    if(t<1){requestAnimationFrame(run);}
+    else{
+      swingIdx++;
+      if(swingIdx<swings.length){startTime=null;requestAnimationFrame(run);}
+      else{
+        const fp=needlePos(finalScore);
+        needle.setAttribute('x2',fp.x);needle.setAttribute('y2',fp.y);
+        arc.setAttribute('stroke-dashoffset',arcOff(finalScore));
+        const band=getBand(finalScore);
+        arc.setAttribute('stroke',band.color);
+        scoreEl.textContent=finalScore;
+        scoreEl.style.color=band.color;
+        const label=document.getElementById('gaugeBandLabel');
+        label.innerHTML=`<div style="display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#fff;background:${band.color};padding:.35rem 1.1rem;border-radius:4px">${band.label}</div>`;
+        document.getElementById('fBand').value=band.label;
+        const descBox=document.getElementById('bandDesc');
+        document.getElementById('bandDescText').textContent=band.desc;
+        descBox.style.display='block';
+        descBox.style.borderLeft=`3px solid ${band.color}`;
+      }
+    }
+  }
+  requestAnimationFrame(run);
+}
+
+// PATTERN MATCHING
+const patternFlags=[
+  {
+    id:'cortisol_reversal',
+    name:'Cortisol Rhythm Reversal',
+    triggers:[
+      s=>s[0]>=2, // wakes with fog/headache/empty
+      s=>s[3]>=2, // evening energy or tired-wired
+      s=>s[4]>=2  // needs 2+ coffees or nothing helps
+    ],
+    mild:"Your energy pattern shows some signs of cortisol timing being off. It's worth paying attention to.",
+    moderate:"Your pattern is consistent with what we often see in cortisol rhythm disruption — where the body's energy signal peaks at the wrong time of day.",
+    strong:"Here's what's likely happening — your cortisol rhythm is running several hours behind schedule. This isn't a sleep problem. Your body is operating on the wrong internal clock. The good news is this is one of the most reversible patterns we work with.",
+    referral:null
+  },
+  {
+    id:'pmos',
+    name:'PMOS (Polycystic Metabolic Ovarian Syndrome)',
+    triggers:[
+      s=>s[0]>=2,
+      s=>s[3]>=2,
+      s=>s[6]>=2, // sleep hours don't help
+      s=>s[7]>=2  // weekend-weekday mismatch
+    ],
+    mild:"Your rhythm shows some signals that overlap with hormonal circadian disruption.",
+    moderate:"This rhythm pattern — reversed energy, unrefreshing sleep and morning fog — is something we see consistently in hormonal imbalance, especially PMOS.",
+    strong:"Here's what nobody told you about PMOS — it's not just about your hormones. Your body's internal clock is running at the wrong time. And when that clock is off, your insulin stays high longer than it should. That excess insulin is what's driving the hormonal imbalance. The hormones are a symptom. The clock is the problem.",
+    referral:"Markers worth discussing with your physician: fasting insulin, LH/FSH ratio, free testosterone, AMH."
+  },
+  {
+    id:'perimenopause',
+    name:'Perimenopause / Menopause',
+    triggers:[
+      s=>s[2]>=3, // wakes multiple times
+      s=>s[0]>=3, // wakes exhausted
+      s=>s[6]>=2, // sleep doesn't help
+      s=>s[3]>=2  // evenings feel better
+    ],
+    mild:"Some signals suggest your sleep rhythm may have a hormonal component worth monitoring.",
+    moderate:"The pattern of waking in the early hours and unrefreshing sleep is one of the clearer circadian signals we see in perimenopause.",
+    strong:"The sleep changes you're experiencing aren't just about oestrogen dropping. Oestrogen regulates the gene that controls your internal clock. When it drops, your clock shifts — cortisol starts rising too early, pulling you out of deep sleep. This is biology, not anxiety. And it responds to circadian interventions alongside hormonal ones.",
+    referral:"Worth discussing with your gynaecologist: oestradiol, progesterone, FSH levels."
+  },
+  {
+    id:'thyroid',
+    name:'Thyroid Dysfunction',
+    triggers:[
+      s=>s[0]>=2,
+      s=>s[4]>=3, // nothing helps morning
+      s=>s[6]>=3, // more sleep doesn't help or makes worse
+    ],
+    mild:"A consistently flat morning energy is worth monitoring — it can sometimes have a thyroid component.",
+    moderate:"Your pattern overlaps with what we see in thyroid dysfunction — where the metabolic rate is suppressed, making recovery from sleep incomplete.",
+    strong:"A consistently flat morning that doesn't respond to sleep or caffeine is worth paying attention to. TSH follows a strict circadian rhythm. When your internal clock is disrupted, thyroid timing shifts — and high evening cortisol blocks the conversion of T4 into active T3. This is why people on thyroid medication often still feel exhausted. The medication addresses the thyroid. Nobody addressed the clock.",
+    referral:"Markers worth checking: TSH, Free T3, Free T4, Reverse T3."
+  },
+  {
+    id:'hpa',
+    name:'HPA Axis Dysregulation',
+    triggers:[
+      s=>s[0]>=3,              // wakes exhausted/empty
+      s=>s[3]>=3&&s[1]>=2,    // tired-and-wired (Q4) AND mind won't stop (Q2) — must combine
+      s=>s[4]>=2,              // needs stimulants morning
+      s=>s[2]>=2               // waking during sleep
+    ],
+    mild:"Some signals suggest your stress response system may be affecting your sleep rhythm.",
+    moderate:"Your pattern — exhausted but unable to rest, needing stimulants to function — is consistent with HPA axis dysregulation.",
+    strong:"The tired-and-wired feeling isn't in your head. Your stress response system has been running at high alert for long enough that your body has started protecting itself by blunting the morning cortisol spike — leaving you flat in the morning. But evening cortisol hasn't dropped — keeping you switched on when you should be winding down. This is a biological state, not a personality trait.",
+    referral:null
+  }  ,{
+    id:'blood_sugar',
+    name:'Blood Sugar Dysregulation',
+    triggers:[
+      s=>s[2]>=3,   // Q3 — waking multiple times during sleep (overnight glucose correction)
+      s=>s[5]>=3,   // Q6 — post-lunch crash (post-prandial blood sugar drop)
+      s=>s[7]>=3,   // Q8 — weekend-weekday mismatch (social jet lag raises insulin resistance)
+      s=>s[8]>=3    // Q9 — hunger peaks late evening or late night (peripheral clock disruption)
+    ],
+    mild:"Your answers show one signal that may be connected to how your body manages blood sugar across the day. It's worth being aware of — especially if this has been a pattern for a while.",
+    moderate:"A combination of your answers — particularly around sleep, afternoon energy and hunger timing — is consistent with what we see in blood sugar dysregulation. Your body may be struggling to manage glucose levels smoothly across the day. This is one of the reasons fat loss may have been difficult.",
+    strong:"Here's what may be happening — your body's blood sugar rhythm is disrupted across multiple points in the day. Waking during sleep, crashing after lunch, and feeling most hungry late in the day or night are three signals that together point toward insulin resistance or pre-diabetes. Most people with this pattern haven't been formally diagnosed yet. This is one of the most common hidden reasons fat loss may have been difficult even when eating well and exercising.",
+    referral:"Markers worth discussing with your physician: fasting glucose, fasting insulin, HbA1c, HOMA-IR (insulin resistance index)."
+  }
+];
+
+function getAnswerIndex(qIdx){
+  // Returns the worst (highest index) answer selected for that question
+  return history[qIdx]?ansScores.indexOf(history[qIdx].score):-1;
+}
+
+function matchPattern(flag){
+  const answerIndices=Qs.map((_,i)=>getAnswerIndex(i));
+  const matched=flag.triggers.filter(fn=>fn(answerIndices));
+  return matched.length;
+}
+
+function getTopFlags(confirmedConditionNames){
+  const isFemale=userGender==='Female';
+  const age=userAge;
+  const isOlderFemale=isFemale&&(age==='40–50'||age==='50+');
+  const isYoungerFemale=isFemale&&(age==='Under 30'||age==='30–40');
+
+  const scored=patternFlags.map(f=>({flag:f,matches:matchPattern(f)}))
+    .filter(x=>{
+      if(x.matches<1)return false; // lowered from 2 to 1
+      if((f=>f.id==='pmos')(x.flag)&&(!isFemale||!isYoungerFemale))return false;
+      if((f=>f.id==='perimenopause')(x.flag)&&(!isFemale||!isOlderFemale))return false;
+      return true;
+    })
+    .sort((a,b)=>b.matches-a.matches);
+
+  const confirmedIds=[];
+  if(confirmedConditionNames.includes('PMOS'))confirmedIds.push('pmos');
+  if(confirmedConditionNames.some(c=>c.includes('Thyroid')))confirmedIds.push('thyroid');
+  if(confirmedConditionNames.some(c=>c.includes('Perimenopause')||c.includes('Menopause')))confirmedIds.push('perimenopause');
+
+  const unconfirmed=scored.filter(x=>!confirmedIds.includes(x.flag.id));
+  return unconfirmed.slice(0,confirmedConditionNames.length===0?2:Math.max(0,2-confirmedConditionNames.length));
+}
+
+function getFlagText(flagObj){
+  const m=flagObj.matches;
+  if(m>=4)return{text:flagObj.flag.strong,strength:'strong'};
+  if(m>=3)return{text:flagObj.flag.moderate,strength:'moderate'};
+  if(m>=2)return{text:flagObj.flag.mild,strength:'mild'};
+  // 1 match — softest language
+  return{text:"Your answers show one early signal that may be worth keeping an eye on. It's subtle at this stage — but worth noting as you understand your rhythm better.",strength:'early'};
+}
+
+// FORM SUBMIT
+function handleSubmit(e){
+  e.preventDefault();
+  fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}})
+  .then(r=>{
+    if(r.ok){showResult();}
+    else{alert('Something went wrong. Please try again.');}
+  }).catch(()=>alert('Network error. Please try again.'));
+}
+
+function showResult(){
+  document.getElementById('formWall').style.display='none';
+  document.getElementById('resultReveal').style.display='block';
+
+  const band=getBand(totalScore);
+  const confirmedNames=selectedConditions.map(i=>conditions[i]).filter(c=>c!=='No known condition'&&c!=='Prefer not to say');
+
+  // Primary finding based on lowest scoring question
+  let worstQ=0,worstScore=999;
+  history.forEach((h,i)=>{if(h.score<worstScore){worstScore=h.score;worstQ=i;}});
+  const primaryFindings=[
+    {t:"Your Body Never Fully Resets Overnight",d:"The cortisol spike that should wake you up energised and clear — isn't happening. Your body is starting every day already behind. This is one of the reasons fat loss may have been difficult — when your morning hormone signal is weak, your metabolism starts the day in low gear."},
+    {t:"Your Mind Won't Let You Switch Off",d:"When you lie down and your mind starts running — work, family, things you said years ago — that's not a personality trait. That's cortisol still circulating when it should have cleared hours ago. And a body that can't fully rest is a body that holds onto fat as a protective response."},
+    {t:"You're Getting Hours of Sleep But Not the Right Kind",d:"Waking through the night means your body isn't completing the deep sleep cycles where real repair happens. Growth hormone — your body's primary overnight fat-burning signal — only releases during deep sleep. This is one of the reasons fat loss may have been difficult even when you feel like you're sleeping enough."},
+    {t:"Your Body Comes Alive At Night — And That's The Problem",d:"Here's what's happening — your body's internal clock is running several hours behind schedule. The alertness and energy you feel at 10pm is supposed to arrive at 8am. When your energy peaks at the wrong time, your body stores fat instead of burning it. This is one of the reasons fat loss may have been difficult — your metabolism is simply operating on the wrong timetable."},
+    {t:"You're Running On Stimulants Just To Start The Day",d:"Needing two coffees and something sweet before you feel like a person isn't a caffeine habit — it's a signal. Your body's natural morning energy mechanism isn't firing. When stimulants are doing the job your hormones should be doing, your metabolism stays in a reactive state all day. This is one of the reasons fat loss may have been difficult to sustain."},
+    {t:"Your Afternoon Is When Your Body Gives Up",d:"What you feel after lunch isn't just tiredness. It's your blood sugar dropping sharply after a cortisol-insulin interaction that your body can't manage smoothly. In a healthy rhythm this dip is mild — barely noticeable. When it's a crash, it's a signal that something deeper may be off. This is one of the reasons fat loss may have been difficult — your body is burning out mid-day instead of burning fat."},
+    {t:"More Sleep Isn't Helping Because It's The Wrong Kind",d:"When 8 hours leaves you as exhausted as 5, the problem isn't how long you sleep — it's how deeply. Your body isn't reaching the slow-wave stages where repair, hormonal reset and overnight fat metabolism happen. This is one of the reasons fat loss may have been difficult — your body simply isn't getting the biological reset it needs to function efficiently."},
+    {t:"Your Weekend and Weekday Body Are Living In Different Time Zones",d:"The difference between when you sleep on weekdays vs weekends creates what researchers call social jet lag. Even a 1–2 hour shift is enough to chronically raise insulin resistance markers — independently of what you eat. This is one of the reasons fat loss may have been difficult — your body's internal clock is constantly adjusting and never fully settles."},
+    {t:"Your Body Can't Wind Down Even When You're Exhausted",d:"Feeling hot, restless, wired — unable to switch off even when you're completely drained — that's not insomnia. That's your nervous system still running in alert mode when it should be in recovery mode. Your body temperature needs to drop to initiate deep sleep. When it doesn't, you may fall asleep but never truly restore. This is one of the reasons fat loss may have been difficult — your body is spending the night on guard instead of in repair."}
+  ];
+  document.getElementById('primaryTitle').textContent=primaryFindings[worstQ].t;
+  document.getElementById('primaryDesc').textContent=primaryFindings[worstQ].d;
+
+  // Root connection
+  const rootConnections=[
+    "Your cortisol awakening response — the hormonal signal that should energise you within 30–45 minutes of waking — may not be firing at full strength. This single morning signal sets the tone for your metabolism, insulin sensitivity, energy and fat-burning capacity for the entire day. When it's blunted, your body starts every day already running behind.",
+    "Cortisol follows a strict daily rhythm — peaking in the morning and clearing by evening. When it hasn't cleared by the time you lie down, your mind stays active because your body's chemistry is still in 'daytime mode'. Every hour of delayed sleep also shifts your internal clock forward — making the next morning harder, and the cycle continues.",
+    "Growth hormone — the body's primary signal for overnight tissue repair and fat metabolism — is only released during deep, uninterrupted sleep. When you're waking through the night, these cycles get cut short. Your body may be spending hours in bed but completing very little of the biological work that should be happening during that time.",
+    "Your circadian rhythm controls a hormone called cortisol — and cortisol controls when your body is willing to burn fat. When the rhythm is reversed — low cortisol in the morning, high cortisol at night — your body holds onto fat during the hours it should be releasing it, and stores it during the hours it should be burning it. The timing of your biology may matter more than the content of your diet.",
+    "Caffeine works by blocking adenosine — the chemical that builds up during waking hours and signals sleepiness. When you need caffeine just to feel like a person, it usually means your morning cortisol is low and your adenosine clearance from the previous night was incomplete. Using stimulants to compensate keeps your system in a reactive cycle rather than allowing your natural rhythm to restore.",
+    "After eating, blood sugar rises and then falls. In a well-regulated system this rise and fall is smooth and gentle. When the crash is severe, it suggests your insulin response may be working too hard — and your cortisol rhythm isn't providing the stable background regulation it should. This mid-day crash is your body telling you something about how it's managing energy at a deeper level.",
+    "Slow-wave sleep — the deepest stage — is when your body releases growth hormone, resets leptin and ghrelin (the hormones that regulate hunger and fat storage), and consolidates metabolic repair. When you're spending hours in bed but not reaching this stage, none of that biological maintenance is happening. The hours don't count if the depth isn't there.",
+    "Your body's internal organs — liver, gut, muscle — each have their own internal clocks, calibrated to your usual sleep-wake timing. When your weekend sleep shifts by even 1–2 hours, these peripheral clocks are out of sync with your behaviour. Research shows this weekly rhythm disruption raises fasting insulin independently of diet — your body's ability to process and store energy is affected simply by the inconsistency.",
+    "For deep sleep to begin, your core body temperature needs to drop by approximately 1–2 degrees. This drop is triggered by your autonomic nervous system shifting from sympathetic (active) to parasympathetic (restoring) mode. When evening cortisol is still elevated — or when your nervous system hasn't completed its transition — this temperature drop doesn't happen on time. You may fall asleep but stay in lighter sleep stages throughout the night."
+  ];
+  document.getElementById('rootTitle').textContent="Here's What May Be Happening";
+  document.getElementById('rootDesc').textContent=rootConnections[worstQ];
+
+  // Condition flags
+  const flagsContainer=document.getElementById('conditionFlags');
+  flagsContainer.innerHTML='';
+
+  // Show confirmed conditions
+  confirmedNames.forEach(name=>{
+    const matchedFlag=patternFlags.find(f=>{
+      if(name.includes('PMOS'))return f.id==='pmos';
+      if(name.includes('Thyroid'))return f.id==='thyroid';
+      if(name.includes('Perimenopause')||name.includes('Menopause'))return f.id==='perimenopause';
+      if(name.includes('Diabetes'))return f.id==='hpa';
+      return false;
+    });
+    if(matchedFlag){
+      const matches=matchPattern(matchedFlag);
+      const {text,strength}=getFlagText({matches,flag:matchedFlag});
+      const div=document.createElement('div');div.className='condition-flag';
+      const strengthLabel=strength==='strong'?'Strong Pattern Match':strength==='moderate'?'Something Worth Looking Into':strength==='mild'?'Early Signal':'Something To Note';
+      div.innerHTML=`<span class="condition-flag-label">${strengthLabel} — ${name}</span><p>${text}</p>`;
+      if(matchedFlag.referral){
+        div.innerHTML+=`<p style="margin-top:.75rem;font-size:.78rem;color:var(--red);font-weight:700">${matchedFlag.referral}</p>`;
+      }
+      flagsContainer.appendChild(div);
+    }
+  });
+
+  // Show pattern-matched flags
+  const topFlags=getTopFlags(confirmedNames);
+  topFlags.forEach(({flag,matches})=>{
+    const {text,strength}=getFlagText({matches,flag});
+    const div=document.createElement('div');div.className='condition-flag';
+    const strengthLabel=strength==='strong'?'Strong Pattern Detected':strength==='moderate'?'Something Worth Looking Into':strength==='mild'?'Early Signal':'Something To Note';
+    div.innerHTML=`<span class="condition-flag-label">${strengthLabel} — ${flag.name}</span><p>${text}</p>`;
+    if(flag.referral&&strength!=='mild'){
+      div.innerHTML+=`<p style="margin-top:.75rem;font-size:.78rem;color:var(--red);font-weight:700">${flag.referral}</p>`;
+    }
+    flagsContainer.appendChild(div);
+  });
+
+  // Default closing card if no flags at all
+  if(flagsContainer.children.length===0){
+    const div=document.createElement('div');
+    div.className='result-card';
+    div.innerHTML=`<span class="result-card-label">A Note On Your Result</span>
+      <h3 style="font-size:.95rem;font-weight:900;color:var(--ink);text-transform:uppercase;margin-bottom:.5rem">Your Rhythm Shows Early Signs Worth Addressing</h3>
+      <p style="font-size:.84rem;color:var(--ink2);line-height:1.75">These patterns are often easier to address before they become more entrenched. Early disruption responds well to targeted intervention — and that's exactly what a strategy call is designed to help you understand.</p>`;
+    flagsContainer.appendChild(div);
+  }
+
+  // Referral block if any referrals present
+  const hasReferral=[...confirmedNames.map(n=>{
+    const f=patternFlags.find(f=>f.name===n||n.includes(f.name.split(' ')[0]));
+    return f?.referral;
+  }),...topFlags.map(({flag})=>flag.referral)].some(Boolean);
+
+  if(hasReferral){
+    document.getElementById('referralBlock').innerHTML=`
+      <div class="referral-box">
+        <p><strong>A note on physician referral:</strong> The markers mentioned above are not a diagnosis — they are starting points for a conversation with your doctor. Getting clarity on these will help identify your root cause more precisely and make any intervention significantly more effective.</p>
+      </div>`;
+  }
+}
+
+// INIT — build profile screen
+buildSingleSelect('genderOpts', genders, (val)=>{ userGender=val; });
+buildSingleSelect('ageOpts', ages, (val)=>{ userAge=val; });
+buildSingleSelect('activityOpts', activities, (val)=>{ userActivity=val; });
+</script>
+</body>
+</html>
