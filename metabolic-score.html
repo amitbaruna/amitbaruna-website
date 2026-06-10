@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Metabolic Permission Score™ | Amit Baruna</title>
+<meta name="description" content="Find out which of your 5 metabolic layers is blocking your fat loss. Get your personal Metabolic Score™ out of 100.">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#0A0A0A;--black3:#1A1A1A;--red:#D42B2B;--rl:rgba(212,43,43,0.08);--rb:rgba(212,43,43,0.2);--white:#FFFFFF;--off:#F7F7F7;--ink:#1A1A1A;--ink2:#444;--ink3:#888;--bdr:rgba(0,0,0,0.08)}
+html{scroll-behavior:smooth}
+body{font-family:'Arial',sans-serif;background:var(--white);color:var(--ink);line-height:1.7;overflow-x:hidden}
+
+nav{position:sticky;top:0;z-index:99;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.07);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{text-decoration:none;display:block;flex-shrink:0}
+.nav-logo img{width:36px;height:36px;border-radius:4px;display:block}
+.nav-back{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888;text-decoration:none}
+.nav-back:hover{color:#fff}
+
+.hero{background:var(--black);padding:3rem 1.5rem 2.5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06)}
+.hero-badge{display:inline-block;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--red);border:1px solid rgba(212,43,43,0.4);padding:.3rem .875rem;border-radius:3px;margin-bottom:1rem}
+.hero h1{font-size:clamp(1.4rem,4vw,2.2rem);font-weight:900;color:#fff;text-transform:uppercase;line-height:1.15;margin-bottom:.75rem}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:.88rem;color:#888;max-width:480px;margin:0 auto;line-height:1.8}
+
+.prog-wrap{background:var(--black);padding:.875rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:57px;z-index:88}
+.prog-inner{max-width:580px;margin:0 auto}
+.prog-bar{display:flex;gap:4px;margin-bottom:.35rem}
+.pb{height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,0.08);transition:background .3s}
+.pb.done{background:var(--red)}
+.pb.active{background:#FF3B3B}
+.prog-label{font-size:.63rem;color:#555;text-align:right;letter-spacing:.06em}
+
+.quiz-wrap{max-width:580px;margin:0 auto;padding:2.5rem 1.5rem;display:none}
+.q-layer{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--red);font-weight:700;margin-bottom:.5rem}
+.q-text{font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:.35rem;text-transform:uppercase}
+.q-hint{font-size:.75rem;color:var(--ink3);margin-bottom:1.5rem}
+.q-opts{display:flex;flex-direction:column;gap:.5rem}
+.qo{font-size:.88rem;color:var(--ink2);background:var(--off);border:1.5px solid var(--bdr);border-radius:6px;padding:.875rem 1rem;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:flex-start;gap:.75rem;line-height:1.5}
+.qo:hover{border-color:var(--red);background:var(--rl)}
+.qo.sel{border-color:var(--red);background:var(--rl);color:var(--ink)}
+.qcb{width:16px;height:16px;border-radius:4px;border:1.5px solid #CCC;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;background:#fff;margin-top:2px}
+.qo.sel .qcb{background:var(--red);border-color:var(--red);color:#fff}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--bdr)}
+.q-ctr{font-size:.73rem;color:var(--ink3)}
+.btn-back{background:none;color:var(--ink3);padding:.65rem 1.25rem;border-radius:4px;border:1.5px solid var(--bdr);cursor:pointer;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:none}
+.btn-back.show{display:block}
+.btn-next{background:var(--red);color:#fff;padding:.65rem 1.75rem;border-radius:4px;border:none;cursor:pointer;font-size:.82rem;font-weight:700;opacity:.3;pointer-events:none;transition:opacity .2s;text-transform:uppercase;letter-spacing:.06em}
+.btn-next.on{opacity:1;pointer-events:all}
+
+.cond-wrap{max-width:580px;margin:0 auto;padding:2.5rem 1.5rem;display:none}
+.cond-title{font-size:1rem;font-weight:700;color:var(--ink);text-transform:uppercase;margin-bottom:.35rem}
+.cond-sub{font-size:.82rem;color:var(--ink3);margin-bottom:1.5rem;line-height:1.65}
+.cond-opts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1.5rem}
+@media(max-width:480px){.cond-opts{grid-template-columns:1fr}}
+.co{font-size:.82rem;color:var(--ink2);background:var(--off);border:1.5px solid var(--bdr);border-radius:6px;padding:.75rem 1rem;cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:.6rem}
+.co:hover{border-color:var(--red);background:var(--rl)}
+.co.sel{border-color:var(--red);background:var(--rl)}
+.co-cb{width:14px;height:14px;border-radius:3px;border:1.5px solid #CCC;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;background:#fff}
+.co.sel .co-cb{background:var(--red);border-color:var(--red);color:#fff}
+.btn-cond-next{background:var(--red);color:#fff;padding:.75rem 2rem;border-radius:4px;border:none;cursor:pointer;font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;width:100%}
+.btn-cond-skip{display:block;text-align:center;font-size:.75rem;color:var(--ink3);margin-top:.875rem;cursor:pointer;text-decoration:underline;background:none;border:none;width:100%}
+
+.score-wrap{max-width:600px;margin:0 auto;padding:2rem 1.5rem;display:none}
+
+.consequence-item{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem 0;border-bottom:1px solid var(--bdr)}
+.consequence-item:last-child{border-bottom:none}
+.check-icon{color:var(--red);font-weight:900;font-size:1rem;flex-shrink:0;margin-top:.1rem}
+
+.layer-bar-wrap{margin-bottom:1.25rem}
+.layer-bar-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.layer-bar-name{font-size:.75rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.06em}
+.layer-bar-score{font-size:.75rem;font-weight:700}
+.layer-bar-track{height:8px;background:rgba(0,0,0,0.08);border-radius:4px;overflow:hidden}
+.layer-bar-fill{height:100%;border-radius:4px;transition:width .8s ease}
+
+.blocker-card{background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1.25rem;margin-bottom:.75rem}
+.blocker-rank{font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;margin-bottom:.35rem;display:block}
+.blocker-name{font-size:.95rem;font-weight:900;color:var(--ink);text-transform:uppercase;margin-bottom:.35rem}
+.blocker-desc{font-size:.82rem;color:var(--ink2);line-height:1.7;margin:0}
+
+.condition-flag{background:#fff;border:1px solid var(--bdr);border-left:3px solid var(--red);border-radius:0 6px 6px 0;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.condition-flag-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-weight:700;margin-bottom:.4rem;display:block}
+.condition-flag p{font-size:.84rem;color:var(--ink2);line-height:1.75;margin:0}
+
+.improvement-box{background:var(--black);border-radius:8px;padding:1.5rem;text-align:center;margin-bottom:1.5rem}
+.improvement-points{font-size:3rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.35rem}
+.improvement-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,0.5);margin-bottom:.75rem}
+.improvement-desc{font-size:.82rem;color:rgba(255,255,255,0.7);line-height:1.75;margin:0}
+
+.form-wall{background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
+.form-wall h3{font-size:.95rem;font-weight:700;color:var(--ink);text-transform:uppercase;margin-bottom:.35rem}
+.form-wall p{font-size:.82rem;color:var(--ink3);margin-bottom:1.25rem;line-height:1.6}
+.form-fields{display:flex;flex-direction:column;gap:.6rem}
+.form-fields input{font-size:.88rem;background:#fff;border:1.5px solid #CCC;border-radius:4px;padding:.75rem 1rem;color:var(--ink);outline:none;width:100%}
+.form-fields input:focus{border-color:var(--red)}
+.form-fields input::placeholder{color:#AAA}
+.btn-unlock{background:var(--red);color:#fff;padding:.875rem 1.25rem;border-radius:4px;border:none;cursor:pointer;font-size:.88rem;font-weight:700;width:100%;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem}
+
+.result-reveal{display:none}
+.section-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--red);font-weight:700;margin-bottom:.5rem;display:block}
+.section-title{font-size:1rem;font-weight:900;color:var(--ink);text-transform:uppercase;margin-bottom:1.25rem}
+
+.cta-box{background:var(--red);border-radius:8px;padding:1.75rem 1.5rem;text-align:center;margin-top:1.5rem}
+.cta-box h3{font-size:1rem;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:.5rem;line-height:1.3}
+.cta-box p{font-size:.82rem;color:rgba(255,255,255,0.8);margin-bottom:1.25rem;line-height:1.6}
+.btn-cta{display:inline-block;background:#fff;color:var(--red);padding:.875rem 2rem;border-radius:4px;font-size:.88rem;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:.06em}
+
+.disclaimer-box{background:var(--off);border:1px solid var(--bdr);border-radius:6px;padding:1.25rem 1.5rem;margin-top:1.5rem;text-align:center}
+.disclaimer-box p{font-size:.72rem;color:var(--ink3);line-height:1.8;margin:0}
+
+.wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:998;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+</style>
+</head>
+<body>
+
+<a href="https://wa.me/918588828986?text=Hi%20Amit%2C%20I%20just%20completed%20my%20Metabolic%20Score%20and%20wanted%20to%20know%20more." target="_blank" class="wa-float" title="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="favicon.png" alt="AB"></a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-badge">Metabolic Permission Score™ · 10 Questions · 3 Minutes</span>
+  <h1>Find Out What's <em>Blocking</em><br>Your Fat Loss</h1>
+  <p>Answer honestly — select all that apply. Your score out of 100 reveals which biological layer is failing first and why fat loss may have been difficult.</p>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-inner">
+    <div class="prog-bar" id="progBar"></div>
+    <div class="prog-label" id="progLabel">Question 1 of 10</div>
+  </div>
+</div>
+
+<!-- PROFILE SCREEN -->
+<div class="cond-wrap" id="profileWrap" style="display:block">
+  <div class="cond-title">Before we begin</div>
+  <div class="cond-sub">This helps us give you a more accurate and personalised result.</div>
+  <div style="margin-bottom:1.25rem">
+    <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:.6rem">Gender</div>
+    <div class="cond-opts" id="genderOpts"></div>
+  </div>
+  <div style="margin-bottom:1.25rem">
+    <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:.6rem">Age Range</div>
+    <div class="cond-opts" id="ageOpts"></div>
+  </div>
+  <div style="margin-bottom:1.5rem">
+    <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:.6rem">Physical Activity Level</div>
+    <div class="cond-opts" id="activityOpts"></div>
+  </div>
+  <button class="btn-cond-next" id="btnStartQuiz" onclick="startQuiz()" style="opacity:.3;pointer-events:none">Start The Diagnostic →</button>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-wrap" id="quizWrap">
+  <div class="q-layer" id="qLayer"></div>
+  <div class="q-text" id="qText"></div>
+  <div class="q-hint">Select all that apply to you</div>
+  <div class="q-opts" id="qOpts"></div>
+  <div class="q-nav">
+    <button class="btn-back" id="btnBack" onclick="prevQ()">← Back</button>
+    <span class="q-ctr" id="qCtr"></span>
+    <button class="btn-next" id="btnNext" onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<!-- FEMALE CYCLE -->
+<div class="cond-wrap" id="cycleWrap" style="display:none">
+  <div class="cond-title">One more question</div>
+  <div class="cond-sub">This helps us give you a more precise result based on your hormonal cycle.</div>
+  <div class="cond-opts" id="cycleOpts"></div>
+  <button class="btn-cond-next" onclick="showCondition()">Continue →</button>
+  <button class="btn-cond-skip" onclick="showCondition()">Skip this question</button>
+</div>
+
+<!-- CONDITION SCREEN -->
+<div class="cond-wrap" id="condWrap" style="display:none">
+  <div class="cond-title">One last thing before your result</div>
+  <div class="cond-sub">Do you have any known medical conditions? Select all that apply — this helps personalise your result. You can skip this if you prefer.</div>
+  <div class="cond-opts" id="condOpts"></div>
+  <button class="btn-cond-next" onclick="showScore()">See My Result →</button>
+  <button class="btn-cond-skip" onclick="showScore()">Skip this question</button>
+</div>
+
+<!-- SCORE + RESULT -->
+<div class="score-wrap" id="scoreWrap">
+
+  <!-- GAUGE -->
+  <div style="background:linear-gradient(135deg,#0A0A0A 0%,#1A1A1A 100%);border-radius:12px;padding:2rem 1.5rem 1.5rem;text-align:center;margin-bottom:1.5rem">
+    <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:.875rem" id="gaugeLabel" style="color:var(--red)">Your Metabolic Permission Score™</div>
+    <svg viewBox="0 0 200 120" style="width:100%;max-width:280px;display:block;margin:0 auto">
+      <defs>
+        <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#991B1B"/>
+          <stop offset="33%" style="stop-color:#EF4444"/>
+          <stop offset="66%" style="stop-color:#F59E0B"/>
+          <stop offset="100%" style="stop-color:#22C55E"/>
+        </linearGradient>
+      </defs>
+      <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="18" stroke-linecap="round"/>
+      <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="url(#gg)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" id="gaugeArc"/>
+      <line x1="100" y1="105" x2="20" y2="105" id="gaugeNeedle" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="100" cy="105" r="6" fill="#FFFFFF"/>
+      <circle cx="100" cy="105" r="3" fill="#0A0A0A"/>
+      <text x="18" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">0</text>
+      <text x="100" y="18" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">50</text>
+      <text x="182" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="middle">100</text>
+    </svg>
+    <div style="font-size:4rem;font-weight:900;line-height:1;margin:.5rem 0" id="gaugeScore">—</div>
+    <div style="font-size:.65rem;color:rgba(255,255,255,0.4);margin-bottom:.75rem;letter-spacing:.08em">out of 100</div>
+    <div id="gaugeBandLabel"></div>
+    <div id="gaugeStatus" style="font-size:.78rem;color:rgba(255,255,255,0.5);margin-top:.4rem"></div>
+  </div>
+
+  <!-- CONSEQUENCES -->
+  <div style="background:#fff;border:1px solid var(--bdr);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem" id="consequenceBox">
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);margin-bottom:1rem" id="consequenceTitle">You May Be Experiencing:</div>
+    <div id="consequenceList"></div>
+  </div>
+
+  <!-- FORM WALL -->
+  <div class="form-wall" id="formWall">
+    <h3>Your Full Breakdown Is Ready</h3>
+    <p>Enter your details — I'll send your full layer breakdown on WhatsApp personally.</p>
+    <form class="form-fields" id="resultForm" action="https://formspree.io/f/mwvjprbq" method="POST" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="Source" value="Metabolic Score Quiz"/>
+      <input type="hidden" name="Score" id="fScore"/>
+      <input type="hidden" name="Band" id="fBand"/>
+      <input type="hidden" name="Conditions" id="fConditions"/>
+      <input type="hidden" name="Profile" id="fProfile"/>
+      <input type="text" name="Name" placeholder="Your name" required/>
+      <input type="tel" name="WhatsApp" placeholder="Your WhatsApp number" required/>
+      <input type="email" name="Email" placeholder="Your email address" required/>
+      <button type="submit" class="btn-unlock">Unlock My Full Result →</button>
+    </form>
+  </div>
+
+  <!-- QUICK CTA - shows immediately after form submit -->
+  <div id="quickCTA" style="display:none;background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;text-align:center">
+    <p style="font-size:.82rem;color:var(--ink2);margin-bottom:.875rem;line-height:1.65">While your full breakdown loads — if you'd rather just talk to Amit directly:</p>
+    <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank" style="display:inline-block;background:var(--red);color:#fff;padding:.75rem 1.75rem;border-radius:4px;font-size:.82rem;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:.06em">Book a Strategy Call →</a>
+  </div>
+
+  <!-- RESULT REVEAL -->
+  <div class="result-reveal" id="resultReveal">
+
+    <!-- 5 LAYER BARS -->
+    <span class="section-label">Your 5-Layer Breakdown</span>
+    <div class="section-title" id="layerBarsTitle">How Each System Is Performing</div>
+    <div id="layerBars" style="margin-bottom:2rem"></div>
+
+    <!-- BLOCKERS -->
+    <span class="section-label">Your Blockers</span>
+    <div class="section-title">What's Holding You Back</div>
+    <div id="blockerCards" style="margin-bottom:2rem"></div>
+
+    <!-- CONDITION FLAGS -->
+    <div id="conditionFlags"></div>
+
+    <!-- PHYSICIAN REFERRAL -->
+    <div id="referralBlock"></div>
+
+    <!-- IMPROVEMENT POTENTIAL -->
+    <div class="improvement-box" id="improvementBox">
+      <div class="improvement-points" id="improvementPoints">+0</div>
+      <div class="improvement-label">Points Available</div>
+      <p class="improvement-desc" id="improvementDesc"></p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Want To Understand What To Fix First?</h3>
+      <p>Your score, layer breakdown and condition pattern will be shared with Amit before your call. You won't need to explain everything from scratch.</p>
+      <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank" class="btn-cta">Book a Strategy Call with Amit</a>
+    </div>
+
+    <div class="disclaimer-box">
+      <p><strong style="color:var(--ink2)">Important:</strong> This is not a medical diagnostic. It is a clinical symptom pattern tool designed to help identify which biological layer may need attention — and to guide a deeper conversation. Always consult a qualified physician for any health concerns.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const Qs=[
+  {l:"Sleep & Recovery",q:"How do you feel when you wake up in the morning?",o:["Refreshed and energetic — ready to go","Okay but takes me a while to get going","Tired, with brain fog or a dull headache that clears after an hour","Exhausted and foggy most mornings — regardless of how long I slept","Like I haven't slept at all — completely drained, foggy and heavy"]},
+  {l:"Energy Through the Day",q:"How would you describe your energy levels during the day?",o:["Consistent and stable throughout","Good in the morning, dips a little in the afternoon","Crashes badly in the afternoon — I need caffeine or sugar","Low all day — I run on caffeine just to function","No energy at all — basic tasks feel exhausting"]},
+  {l:"Stress & Your Body",q:"How does stress show up in your body?",o:["I handle stress well and recover quickly","I get stressed sometimes but bounce back","I feel constantly on edge — like I can't switch off","My body feels wired but exhausted at the same time","I've been in survival mode so long I don't remember feeling calm"]},
+  {l:"Stress & Eating",q:"When you're stressed or overwhelmed, what happens with food?",o:["Nothing changes — I eat normally","I lose my appetite a little","I crave sugary or salty food strongly","I eat for comfort and find it hard to stop","My weight goes up during stressful periods even without eating more"]},
+  {l:"Fat Loss Response",q:"When you go on a calorie deficit diet, what happens to your body?",o:["I lose weight steadily","I lose a little then plateau — even in a clear deficit","I see almost no change no matter how little I eat","I sometimes gain weight even when eating very little","I've been told my metabolism is broken or damaged"]},
+  {l:"After Eating",q:"How do you feel after lunch?",o:["Fine — satisfied and energetic","Slightly tired but manageable","Very sleepy or foggy — I struggle to focus","Bloated, uncomfortable, or hungry again very quickly","My energy completely crashes after eating"]},
+  {l:"Digestion & Gut",q:"How would you describe your digestion?",o:["Comfortable and consistent","Occasional bloating or irregularity","Frequent bloating, gas or discomfort","Chronic issues — IBS, constipation or diarrhoea","My gut feels like it's constantly reacting to everything"]},
+  {l:"Mental Clarity",q:"How clear does your mind feel on a typical day?",o:["Sharp and focused — I think clearly","Occasional brain fog usually tied to poor sleep","Often foggy — especially in the afternoons after meals","Struggling to concentrate most of the time","Constant fog — I can't remember things or think straight"]},
+  {l:"History with Programmes",q:"When you start a new diet or fitness programme, what usually happens?",o:["I stay consistent and see results","I start well but life gets in the way after a few weeks","My motivation disappears completely after the initial push","I've tried so many things I've stopped believing they'll work","I sabotage myself every time I start seeing results"]},
+  {l:"How You Feel Right Now",q:"How do you feel about your body's ability to change?",o:["Optimistic — I know it's possible","Hopeful but a little worried","Frustrated — I've tried so hard for so long","Disconnected from my body — I don't recognise it anymore","I genuinely feel like my body is working against me"]}
+];
+
+const conditions=['Type 2 Diabetes or Pre-diabetes','PMOS (Polycystic Metabolic Ovarian Syndrome)','Thyroid condition','Perimenopause or Menopause','Hypertension','On GLP-1 medication (Ozempic / Mounjaro)','No known condition','Prefer not to say'];
+const genders=['Male','Female','Prefer not to say'];
+const ages=['Under 30','30–40','40–50','50+'];
+const activities=['Sedentary — mostly sitting, little movement','Lightly active — some walking, occasional exercise','Moderately active — exercise 3–4 times a week','Very active — daily training or physical job'];
+const cycles=['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','Currently experiencing perimenopause symptoms','Post-menopause','On hormonal contraception','Prefer not to say'];
+
+const ansScores=[10,7,4,2,0];
+const pointsAvail=[0,3,3,5,4];
+const lmap={0:1,1:1,2:2,3:2,4:3,5:3,6:4,7:4,8:5,9:5};
+const layerNames=['Circadian Authority','Neurochemical Safety','Metabolic Signaling','Gut–Brain Axis','Identity Physiology'];
+
+let cur=0,sel=new Set(),history=[],totalScore=0,sc={1:0,2:0,3:0,4:0,5:0};
+let userGender='',userAge='',userActivity='',userCycle='',selectedConditions=[];
+
+function buildSingleSelect(containerId,options,onSelect){
+  const c=document.getElementById(containerId);c.innerHTML='';
+  options.forEach((o)=>{
+    const b=document.createElement('button');b.className='co';
+    b.innerHTML='<span class="co-cb"></span>'+o;
+    b.onclick=()=>{
+      c.querySelectorAll('.co').forEach(el=>{el.classList.remove('sel');el.querySelector('.co-cb').textContent='';});
+      b.classList.add('sel');b.querySelector('.co-cb').textContent='✓';
+      onSelect(o);checkProfileComplete();
+    };
+    c.appendChild(b);
+  });
+}
+
+function checkProfileComplete(){
+  const ready=userGender&&userAge&&userActivity;
+  const btn=document.getElementById('btnStartQuiz');
+  btn.style.opacity=ready?'1':'0.3';
+  btn.style.pointerEvents=ready?'all':'none';
+}
+
+function startQuiz(){
+  document.getElementById('profileWrap').style.display='none';
+  document.getElementById('quizWrap').style.display='block';
+  buildQ();
+}
+
+function buildProg(){
+  const bar=document.getElementById('progBar');bar.innerHTML='';
+  for(let i=0;i<Qs.length;i++){const d=document.createElement('div');d.className='pb'+(i<cur?' done':i===cur?' active':'');bar.appendChild(d);}
+  document.getElementById('progLabel').textContent='Question '+(cur+1)+' of '+Qs.length;
+}
+
+function buildQ(){
+  buildProg();
+  document.getElementById('qLayer').textContent=Qs[cur].l;
+  document.getElementById('qText').textContent=Qs[cur].q;
+  document.getElementById('qCtr').textContent=(cur+1)+' of '+Qs.length;
+  document.getElementById('btnBack').className=cur>0?'btn-back show':'btn-back';
+  const o=document.getElementById('qOpts');o.innerHTML='';
+  sel=new Set();
+  document.getElementById('btnNext').className='btn-next';
+  Qs[cur].o.forEach((t,i)=>{
+    const b=document.createElement('button');b.className='qo';
+    b.innerHTML='<span class="qcb"></span>'+t;
+    b.onclick=()=>tog(b,i);o.appendChild(b);
+  });
+}
+
+function tog(b,i){
+  if(sel.has(i)){sel.delete(i);b.classList.remove('sel');b.querySelector('.qcb').textContent='';}
+  else{sel.add(i);b.classList.add('sel');b.querySelector('.qcb').textContent='✓';}
+  document.getElementById('btnNext').className=sel.size>0?'btn-next on':'btn-next';
+}
+
+function nextQ(){
+  if(!sel.size)return;
+  const layer=lmap[cur];
+  const minScore=Math.min(...Array.from(sel).map(i=>ansScores[i]));
+  const worstIdx=Array.from(sel).reduce((a,b)=>ansScores[b]<ansScores[a]?b:a);
+  history.push({layer,score:minScore,ansIdx:worstIdx});
+  sc[layer]+=minScore;totalScore+=minScore;
+  cur++;
+  if(cur>=Qs.length){
+    if(userGender==='Female'){showCycleQ();}
+    else{showCondition();}
+    return;
+  }
+  buildQ();
+}
+
+function prevQ(){
+  if(cur===0)return;
+  cur--;
+  const prev=history.pop();
+  sc[prev.layer]-=prev.score;
+  totalScore-=prev.score;
+  buildQ();
+}
+
+function showCycleQ(){
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('cycleWrap').style.display='block';
+  const opts=document.getElementById('cycleOpts');opts.innerHTML='';
+  cycles.forEach((c)=>{
+    const b=document.createElement('button');b.className='co';
+    b.innerHTML='<span class="co-cb"></span>'+c;
+    b.onclick=()=>{
+      opts.querySelectorAll('.co').forEach(el=>{el.classList.remove('sel');el.querySelector('.co-cb').textContent='';});
+      b.classList.add('sel');b.querySelector('.co-cb').textContent='✓';
+      userCycle=c;
+    };
+    opts.appendChild(b);
+  });
+}
+
+function showCondition(){
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('cycleWrap').style.display='none';
+  document.getElementById('condWrap').style.display='block';
+  const opts=document.getElementById('condOpts');opts.innerHTML='';
+  const isFemale=userGender==='Female';
+  const femaleOnly=[1,3];
+  conditions.forEach((c,i)=>{
+    if(!isFemale&&femaleOnly.includes(i))return;
+    const b=document.createElement('button');b.className='co';
+    b.innerHTML='<span class="co-cb"></span>'+c;
+    b.onclick=()=>togCond(b,i);opts.appendChild(b);
+  });
+}
+
+function togCond(b,i){
+  const isExclusive=i>=6;
+  if(isExclusive){
+    document.querySelectorAll('#condOpts .co').forEach((el,idx)=>{if(idx!==Array.from(document.querySelectorAll('#condOpts .co')).indexOf(b)){el.classList.remove('sel');el.querySelector('.co-cb').textContent='';}});
+    selectedConditions=[i];
+    b.classList.toggle('sel');
+    b.querySelector('.co-cb').textContent=b.classList.contains('sel')?'✓':'';
+    if(!b.classList.contains('sel'))selectedConditions=[];
+  } else {
+    document.querySelectorAll('#condOpts .co').forEach((el)=>{
+      const txt=el.textContent.trim();
+      if(txt==='No known condition'||txt==='Prefer not to say'){el.classList.remove('sel');el.querySelector('.co-cb').textContent='';}
+    });
+    selectedConditions=selectedConditions.filter(x=>x<6);
+    if(selectedConditions.includes(i)){selectedConditions=selectedConditions.filter(x=>x!==i);b.classList.remove('sel');b.querySelector('.co-cb').textContent='';}
+    else{selectedConditions.push(i);b.classList.add('sel');b.querySelector('.co-cb').textContent='✓';}
+  }
+}
+
+const bands=[
+  {min:75,max:100,color:'#22C55E',load:'Metabolic Load: Balanced',status:'Well Regulated',
+   consequences:['Have stable energy through the day','Lose fat predictably when they focus on it','Wake up feeling restored after sleep','Recover well from exercise and stress','Maintain hunger and cravings without much effort'],
+   extra:'If your score looks balanced but fat loss still feels difficult — that\'s worth paying attention to. A single layer can hold everything back even when the overall score looks good.',
+   referral:null},
+  {min:50,max:74,color:'#F59E0B',load:'Metabolic Load: Moderate',status:'Early Dysfunction',
+   consequences:['Energy that starts well but dips by afternoon','Fat loss that\'s slower than expected despite effort','Sleep that isn\'t as restorative as it used to be','Cravings — especially in the evenings','Recovery from exercise that takes longer than it should','Motivation that comes and goes'],
+   extra:null,
+   referral:'routine'},
+  {min:25,max:49,color:'#EF4444',load:'Metabolic Load: Elevated',status:'Metabolic Friction Present',
+   consequences:['Weight loss plateau despite eating carefully','Afternoon energy crash — needs caffeine to push through','Sleep that never feels like enough no matter the hours','Hunger and cravings that feel hard to control','Difficulty staying consistent with any programme','Workouts that feel harder than they should'],
+   extra:null,
+   referral:'targeted'},
+  {min:0,max:24,color:'#991B1B',load:'Metabolic Load: Highly Elevated',status:'Significant Metabolic Impairment',
+   consequences:['Persistent fat loss resistance — body holding on despite everything','Chronic fatigue that sleep doesn\'t fix','Waking through the night or never feeling truly rested','High stress load the body can\'t seem to recover from','Strong cravings and hunger that feel biological — not just habit','A sense that the body is working against them — not with them'],
+   extra:null,
+   referral:'full'}
+];
+
+function getBand(s){return bands.find(b=>s>=b.min&&s<=b.max)||bands[3];}
+
+function colorAt(s){if(s>=75)return'#22C55E';if(s>=50)return'#F59E0B';if(s>=25)return'#EF4444';return'#991B1B';}
+
+function showScore(){
+  document.getElementById('condWrap').style.display='none';
+  document.getElementById('scoreWrap').style.display='block';
+  document.getElementById('fScore').value=totalScore;
+  const band=getBand(totalScore);
+  document.getElementById('fBand').value=band.load;
+  document.getElementById('fConditions').value=selectedConditions.map(i=>conditions[i]).join(', ')||'Not specified';
+  document.getElementById('fProfile').value='Gender: '+userGender+' | Age: '+userAge+' | Activity: '+userActivity+' | Cycle: '+(userCycle||'N/A');
+  animateGauge(totalScore);
+  buildConsequences(band);
+}
+
+function buildConsequences(band){
+  const list=document.getElementById('consequenceList');
+  const title=document.getElementById('consequenceTitle');
+  const pct=totalScore/100;
+  let prefix='People in this range ';
+  if(pct>=0.75)prefix='People in this range typically:';
+  else if(pct>=0.5)prefix='People in this range often notice:';
+  else if(pct>=0.25)prefix='People in this range commonly experience:';
+  else prefix='People in this range frequently experience:';
+  title.textContent=prefix;
+  list.innerHTML='';
+  band.consequences.forEach(c=>{
+    const div=document.createElement('div');div.className='consequence-item';
+    div.innerHTML='<span class="check-icon" style="color:'+band.color+'">✓</span><span style="font-size:.88rem;color:var(--ink2);line-height:1.65">'+c+'</span>';
+    list.appendChild(div);
+  });
+  if(band.extra){
+    const note=document.createElement('p');
+    note.style.cssText='font-size:.82rem;color:var(--ink3);font-style:italic;margin-top:1rem;line-height:1.7;border-top:1px solid var(--bdr);padding-top:1rem';
+    note.textContent=band.extra;
+    list.appendChild(note);
+  }
+}
+
+function animateGauge(finalScore){
+  const needle=document.getElementById('gaugeNeedle');
+  const arc=document.getElementById('gaugeArc');
+  const scoreEl=document.getElementById('gaugeScore');
+  const totalLen=251.2;
+  function toAngle(s){return Math.PI-(s/100*Math.PI);}
+  function needlePos(s){const a=toAngle(s);return{x:100+70*Math.cos(a),y:105-70*Math.sin(a)};}
+  function arcOff(s){return totalLen-(s/100*totalLen);}
+  const swings=[{from:0,to:90,dur:1200},{from:30,to:80,dur:800},{from:Math.max(0,finalScore-8),to:finalScore,dur:600}];
+  let swingIdx=0,startTime=null;
+  function ease(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+  function run(ts){
+    if(!startTime)startTime=ts;
+    const sw=swings[swingIdx];
+    const t=Math.min((ts-startTime)/sw.dur,1);
+    const e=ease(t);
+    const cur=sw.from+(sw.to-sw.from)*e;
+    const pos=needlePos(cur);
+    needle.setAttribute('x2',pos.x);needle.setAttribute('y2',pos.y);
+    arc.setAttribute('stroke-dashoffset',arcOff(cur));
+    arc.setAttribute('stroke',colorAt(cur));
+    if(t<1){requestAnimationFrame(run);}
+    else{
+      swingIdx++;
+      if(swingIdx<swings.length){startTime=null;requestAnimationFrame(run);}
+      else{
+        const band=getBand(finalScore);
+        const fp=needlePos(finalScore);
+        needle.setAttribute('x2',fp.x);needle.setAttribute('y2',fp.y);
+        arc.setAttribute('stroke-dashoffset',arcOff(finalScore));
+        arc.setAttribute('stroke',band.color);
+        scoreEl.textContent=finalScore;
+        scoreEl.style.color=band.color;
+        document.getElementById('gaugeLabel').style.color=band.color;
+        document.getElementById('gaugeBandLabel').innerHTML='<div style="display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#fff;background:'+band.color+';padding:.35rem 1.1rem;border-radius:4px">'+band.load+'</div>';
+        document.getElementById('gaugeStatus').textContent=band.status;
+      }
+    }
+  }
+  requestAnimationFrame(run);
+}
+
+function handleSubmit(e){
+  e.preventDefault();
+  // Show quick CTA immediately
+  document.getElementById('quickCTA').style.display='block';
+  fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}})
+  .then(r=>{showResult();}).catch(()=>{showResult();});
+}
+
+function showResult(){
+  document.getElementById('formWall').style.display='none';
+  document.getElementById('resultReveal').style.display='block';
+  const band=getBand(totalScore);
+  const confirmedNames=selectedConditions.map(i=>conditions[i]).filter(c=>c!=='No known condition'&&c!=='Prefer not to say');
+
+  // 5-layer bars
+  const barsDiv=document.getElementById('layerBars');
+  const layerScores=[sc[1],sc[2],sc[3],sc[4],sc[5]];
+  const maxPer=20;
+  layerNames.forEach((name,i)=>{
+    const score=layerScores[i];
+    const pct=(score/maxPer)*100;
+    const col=pct>=70?'#22C55E':pct>=40?'#F59E0B':'#EF4444';
+    const div=document.createElement('div');div.className='layer-bar-wrap';
+    div.innerHTML='<div class="layer-bar-label"><span class="layer-bar-name">'+name+'</span><span class="layer-bar-score" style="color:'+col+'">'+score+'/20</span></div><div class="layer-bar-track"><div class="layer-bar-fill" style="width:'+pct+'%;background:'+col+'"></div></div>';
+    barsDiv.appendChild(div);
+  });
+
+  // Blockers
+  const sorted=layerScores.map((s,i)=>({name:layerNames[i],score:s,idx:i+1})).sort((a,b)=>a.score-b.score);
+  const blockerDescs=[
+    'Your body\'s internal clock may be running on the wrong schedule. This single layer affects every other system — energy, fat burning, hormone release and recovery all depend on your rhythm being timed correctly.',
+    'Your nervous system may be stuck in a mode that makes fat loss feel unsafe. When the body is under chronic stress, holding onto weight is actually its way of protecting you. No diet overrides this signal.',
+    'Your body\'s response to food and calorie reduction may have shifted. Eating less might not be producing the results it used to — and there\'s a biological reason for that, not a personal one.',
+    'Your gut and brain may be out of communication. Inflammation and digestive imbalance quietly affect your hormones, appetite signals and mental clarity in ways that are often never traced back to the gut.',
+    'Long-running patterns in how your body responds to change may be making consistency harder than it should be. This isn\'t about discipline — it\'s about biology that\'s been running in a certain mode long enough to feel normal.'
+  ];
+  const ranks=['🔴 Primary Blocker','🟡 Secondary Blocker','🟠 Tertiary Blocker'];
+  const blockerDiv=document.getElementById('blockerCards');
+  sorted.slice(0,3).forEach((layer,i)=>{
+    const card=document.createElement('div');card.className='blocker-card';
+    card.innerHTML='<span class="blocker-rank" style="color:'+(i===0?'#EF4444':i===1?'#F59E0B':'#F97316')+'">'+ranks[i]+' — '+layer.name+'</span><p class="blocker-desc">'+blockerDescs[layer.idx-1]+'</p>';
+    blockerDiv.appendChild(card);
+  });
+
+  // Condition flags
+  const flagsDiv=document.getElementById('conditionFlags');
+  const isFemale=userGender==='Female';
+  const isOlderFemale=isFemale&&(userAge==='40–50'||userAge==='50+');
+
+  if(confirmedNames.length>0){
+    confirmedNames.slice(0,2).forEach(name=>{
+      let txt='';
+      if(name.includes('Diabetes')){
+        txt='You\'ve been managing Type 2 Diabetes — and if fat loss has felt particularly difficult, there\'s a biological reason. Insulin dysregulation affects all 5 metabolic layers simultaneously, which is why the standard advice of eat less and exercise more rarely moves the needle in your situation. Your blockers above are directly connected to this.';
+      } else if(name.includes('PMOS')){
+        txt='Here\'s what nobody told you about PMOS — it\'s not just about your hormones. Your body\'s internal clock is running at the wrong time. And when that clock is off, your insulin stays high longer than it should. That excess insulin is what\'s driving the hormonal imbalance. The hormones are a symptom. The clock is the problem.';
+      } else if(name.includes('Perimenopause')||name.includes('Menopause')){
+        txt='You\'ve been dealing with perimenopause — and if it\'s felt like everything is harder than it used to be, that\'s because it genuinely is. Here\'s what may be happening: oestrogen plays a quiet but important role in keeping your body\'s internal clock on time. As it drops during perimenopause, that clock starts shifting — and your blood sugar regulation is directly affected. Your body becomes more vulnerable to glucose spikes and crashes at the exact hours when it should be recovering. This is often why both conditions feel harder to manage at the same time.';
+      } else if(name.includes('Thyroid')){
+        txt='A thyroid condition combined with your score pattern is worth paying attention to. Standard thyroid panels often miss the full picture — particularly how thyroid conversion (T4 to T3) is affected by cortisol and circadian disruption. This is why people on thyroid medication often still feel exhausted. The medication addresses the thyroid. Nobody addressed the clock.';
+      } else if(name.includes('GLP-1')){
+        txt='Being on GLP-1 medication with this score pattern is consistent with what we call a metabolic permission problem. GLP-1 drugs work on appetite and insulin — but when multiple biological layers are disrupted, the medication alone can\'t override the environment. The root needs addressing alongside the medication.';
+      } else if(name.includes('Hypertension')){
+        txt='Hypertension combined with your layer scores suggests your nervous system and metabolic signaling may be under significant load. Blood pressure that stays elevated despite medication is often a signal that the underlying stress response hasn\'t been addressed — which is exactly what your blocker sequence points to.';
+      }
+      if(txt){
+        const div=document.createElement('div');div.className='condition-flag';
+        div.innerHTML='<span class="condition-flag-label">What This May Mean For You — '+name+'</span><p>'+txt+'</p>';
+        flagsDiv.appendChild(div);
+      }
+    });
+  }
+
+  // Physician referral
+  const refDiv=document.getElementById('referralBlock');
+  const bandObj=getBand(totalScore);
+  let refHTML='';
+  if(bandObj.referral==='routine'){
+    refHTML='<div style="background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1.25rem;margin-bottom:1.5rem"><p style="font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.06em">Routine Checkup Recommended</p><p style="font-size:.8rem;color:var(--ink2);line-height:1.7;margin-bottom:.75rem">A routine health check every 6 months is a good habit. Standard markers worth discussing:</p><p style="font-size:.8rem;color:var(--ink2);line-height:1.9">Fasting blood sugar · HbA1c · Fasting insulin · TSH · Vitamin B12 · Vitamin D · Full iron profile'+(isFemale?' (especially important for females)':'')+'· hsCRP (inflammation)</p></div>';
+  } else if(bandObj.referral==='targeted'||bandObj.referral==='full'){
+    let markers='Fasting blood sugar · HbA1c · Fasting insulin + HOMA-IR · TSH + Free T3 + Free T4 + Thyroid antibodies (TPO + TgAb) · Vitamin B12 · Vitamin D · Full iron profile · hsCRP · ESR · Fasting cortisol (morning)';
+    if(isOlderFemale)markers+=' · Oestradiol + FSH + Progesterone · Reverse T3';
+    if(userGender==='Male')markers+=' · Free testosterone + Total testosterone · Evening cortisol';
+    if(confirmedNames.some(c=>c.includes('Diabetes')))markers+=' · Fasting blood sugar (if not already done)';
+    refHTML='<div style="background:var(--rl);border:1px solid var(--rb);border-radius:8px;padding:1.25rem;margin-bottom:1.5rem"><p style="font-size:.78rem;font-weight:700;color:var(--red);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.06em">Physician Referral Recommended</p><p style="font-size:.8rem;color:var(--ink2);line-height:1.7;margin-bottom:.75rem">Based on your score and pattern, these markers are worth a conversation with your physician:</p><p style="font-size:.8rem;color:var(--ink2);line-height:1.9">'+markers+'</p></div>';
+  }
+  refDiv.innerHTML=refHTML;
+
+  // Improvement potential
+  const pointsAvailable=history.reduce((sum,h)=>sum+pointsAvail[h.ansIdx],0);
+  const weeks=totalScore<=30?'10–14':totalScore<=50?'8–12':'6–10';
+  document.getElementById('improvementPoints').textContent='+'+pointsAvailable;
+  document.getElementById('improvementDesc').textContent='Based on your answers, a realistic one-to-two level improvement across your weakest questions puts '+pointsAvailable+' points within reach. Most people working on this pattern see meaningful change within '+weeks+' weeks with the right intervention sequence.';
+}
+
+// INIT
+buildSingleSelect('genderOpts',genders,(val)=>{userGender=val;});
+buildSingleSelect('ageOpts',ages,(val)=>{userAge=val;});
+buildSingleSelect('activityOpts',activities,(val)=>{userActivity=val;});
+</script>
+</body>
+</html>

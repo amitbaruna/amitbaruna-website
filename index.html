@@ -304,7 +304,7 @@ footer a:hover{color:var(--red)}
         <div class="ps"><span class="ps-num">300+</span><span class="ps-lbl">GLP-1 Cases</span></div>
         <div class="ps"><span class="ps-num">8+</span><span class="ps-lbl">Years</span></div>
       </div>
-      <button class="pop-btn" onclick="closePopup();document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Get Your Metabolic Score™ →</button>
+      <a href="metabolic-score.html" target="_blank" class="pop-btn">Get Your Metabolic Score™ →</a>
       <button class="pop-skip" onclick="closePopup()">No thanks, I'll continue reading</button>
     </div>
   </div>
@@ -326,7 +326,7 @@ footer a:hover{color:var(--red)}
     <a href="/transformations">Results</a>
     <a href="/casestudies">Case Studies</a>
     <a href="diagnostic.html">Diagnostic Tools</a>
-    <a href="#" onclick="closeNav();setTimeout(()=>document.getElementById('quiz').scrollIntoView({behavior:'smooth'}),300);return false;">Metabolic Score</a>
+    <a href="metabolic-score.html" target="_blank">Metabolic Score</a>
     <a href="https://calendly.com/amit-baruna/transformation-blueprint-call" target="_blank">Book a Call →</a>
   </div>
 </nav>
@@ -556,44 +556,59 @@ footer a:hover{color:var(--red)}
   </div>
 </div>
 
-<!-- QUIZ -->
-<div class="qbg" id="quiz">
-  <div class="qi">
-    <span class="sl2">Free Diagnostic</span>
-    <h2 style="font-size:clamp(1.3rem,3vw,2rem);font-weight:900;text-transform:uppercase;margin-bottom:.4rem;color:var(--ink)">GET YOUR <em style="color:var(--red)">METABOLIC SCORE™ — FREE</em></h2>
-    <p style="font-size:.88rem;color:var(--ink2)">10 questions · Select all that apply · 3 minutes · Your score out of 100</p>
-    <div class="qbox">
-      <div id="qmain">
-        <div class="qprog" id="qprog"></div>
-        <div id="qlt" class="qlt"></div>
-        <div id="qq" class="qq"></div>
-        <div class="qh">Select all that apply to you</div>
-        <div id="qopts" class="qopts"></div>
-        <div class="qnav"><button class="bbk" id="bbk" onclick="prevQ()">← Back</button><span class="qctr" id="qctr"></span><button class="bnxt" id="bnxt" onclick="nextQ()">Next →</button></div>
+<!-- METABOLIC SCORE TEASER -->
+<div id="quiz" style="background:var(--white);padding:4rem 1.5rem;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)">
+  <div style="max-width:680px;margin:0 auto;text-align:center">
+    <span style="font-size:.63rem;text-transform:uppercase;letter-spacing:.2em;color:var(--red);font-weight:700;display:block;margin-bottom:.875rem">Free · 3 Minutes · No Signup</span>
+    <h2 style="font-size:clamp(1.3rem,3.5vw,2rem);font-weight:900;text-transform:uppercase;color:var(--ink);line-height:1.15;margin-bottom:.75rem">WHICH OF YOUR <em style="font-style:normal;color:var(--red)">5 METABOLIC LAYERS</em><br>IS BLOCKING YOUR FAT LOSS?</h2>
+    <p style="font-size:.88rem;color:var(--ink2);line-height:1.85;max-width:480px;margin:0 auto 2rem">Find out in 3 minutes. Get your personal Metabolic Score™ out of 100 — and understand exactly which biological system is working against you.</p>
+
+    <div style="background:var(--black);border-radius:10px;padding:1.75rem 2rem 1.25rem;max-width:320px;margin:0 auto 1.5rem;text-align:center">
+      <div style="font-size:.58rem;text-transform:uppercase;letter-spacing:.16em;color:var(--red);font-weight:700;margin-bottom:.75rem">Your Metabolic Permission Score™</div>
+      <svg viewBox="0 0 200 120" style="width:100%;max-width:220px;display:block;margin:0 auto">
+        <defs>
+          <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#991B1B"/>
+            <stop offset="33%" style="stop-color:#EF4444"/>
+            <stop offset="66%" style="stop-color:#F59E0B"/>
+            <stop offset="100%" style="stop-color:#22C55E"/>
+          </linearGradient>
+        </defs>
+        <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="16" stroke-linecap="round"/>
+        <path d="M 20 105 A 80 80 0 0 1 180 105" fill="none" stroke="url(#tg)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="125.6" id="tArc"/>
+        <line x1="100" y1="105" x2="20" y2="105" id="tNeedle" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="100" cy="105" r="6" fill="#fff"/>
+        <circle cx="100" cy="105" r="3" fill="#0A0A0A"/>
+        <text x="18" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.3)" text-anchor="middle">0</text>
+        <text x="100" y="18" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.3)" text-anchor="middle">50</text>
+        <text x="182" y="122" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.3)" text-anchor="middle">100</text>
+      </svg>
+      <div style="font-size:1.8rem;font-weight:900;color:var(--red);line-height:1;margin:.4rem 0" id="tScore">—</div>
+      <div style="font-size:.68rem;color:rgba(255,255,255,0.3);letter-spacing:.1em">Your score awaits →</div>
+    </div>
+
+    <div style="background:var(--off);border:1px solid var(--bdr);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;max-width:480px;margin-left:auto;margin-right:auto">
+      <div style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0"></div>
+      <p style="font-size:.78rem;color:var(--ink2);margin:0;line-height:1.6;text-align:left">As featured in <strong style="color:var(--ink)">The Indian Express</strong> alongside senior hospital physicians</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1.75rem;max-width:480px;margin-left:auto;margin-right:auto">
+      <div style="background:var(--off);border:1px solid var(--bdr);border-radius:6px;padding:.875rem;text-align:center">
+        <span style="font-size:1.2rem;font-weight:900;color:var(--red);display:block">4,000+</span>
+        <span style="font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Clients</span>
       </div>
-      <div class="rb" id="rb">
-        <div id="gauge-container"></div>
-        <div class="rt"><h3 id="rtitle"></h3><p id="rdesc"></p></div>
-        <div class="rg">
-          <div class="gb">Your full metabolic breakdown includes: the exact physiological mechanism breaking in your primary layer · the 3 most common mistakes that make this layer worse · a prioritised protocol sequence to restore it · which biomarkers to track · and how this layer affects the other 4.</div>
-          <div class="go" id="go">
-            <p>Enter your details — I'll send your full layer breakdown on WhatsApp personally.</p>
-            <form class="gf" id="gf" action="https://formspree.io/f/mwvjprbq" method="POST" onsubmit="handleForm(event)">
-              <input type="hidden" name="Layer Result" id="f-result"/>
-              <input type="text" name="Name" id="fn" placeholder="Your name" required/>
-              <input type="tel" name="WhatsApp" id="fw" placeholder="WhatsApp (with country code)" required/>
-              <input type="email" name="Email" id="fe" placeholder="Email address" required/>
-              <button type="submit" class="bul">Send My Full Breakdown →</button>
-            </form>
-            <div class="sm" id="sm">
-              <h3>Done ✓</h3>
-              <p>Your full metabolic breakdown is heading to your WhatsApp. I review every result personally and will be in touch within 24 hours.</p>
-              <button class="btn-red" onclick="window.open('https://calendly.com/amit-baruna/transformation-blueprint-call','_blank')">Book Your Strategy Call →</button>
-            </div>
-          </div>
-        </div>
+      <div style="background:var(--off);border:1px solid var(--bdr);border-radius:6px;padding:.875rem;text-align:center">
+        <span style="font-size:1.2rem;font-weight:900;color:var(--red);display:block">300+</span>
+        <span style="font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">GLP-1 Cases</span>
+      </div>
+      <div style="background:var(--off);border:1px solid var(--bdr);border-radius:6px;padding:.875rem;text-align:center">
+        <span style="font-size:1.2rem;font-weight:900;color:var(--red);display:block">8+</span>
+        <span style="font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Years</span>
       </div>
     </div>
+
+    <a href="metabolic-score.html" target="_blank" style="display:inline-block;background:var(--red);color:#fff;padding:.9rem 2.25rem;border-radius:4px;font-size:.88rem;font-weight:900;text-decoration:none;text-transform:uppercase;letter-spacing:.07em">Get Your Metabolic Score™ →</a>
+    <p style="font-size:.7rem;color:var(--ink3);margin-top:.75rem">3 minutes · No signup required · Results instantly</p>
   </div>
 </div>
 
@@ -729,7 +744,37 @@ setTimeout(()=>{
   setTimeout(animatePopupMeter,200);
 },4000);
 
-// QUIZ
+// TEASER GAUGE ANIMATION
+(function(){
+  const needle=document.getElementById('tNeedle');
+  const arc=document.getElementById('tArc');
+  const scoreEl=document.getElementById('tScore');
+  if(!needle)return;
+  const totalLen=251.2;
+  const waypoints=[15,72,38,85,28,61,44,90,22,55,35,78,48];
+  let wpIdx=0,current=15,target=waypoints[1],startTime=null;
+  const duration=1800;
+  function colorAt(s){if(s>=75)return'#22C55E';if(s>=50)return'#F59E0B';if(s>=25)return'#EF4444';return'#991B1B';}
+  function toAngle(s){return Math.PI-(s/100*Math.PI);}
+  function needlePos(s){const a=toAngle(s);return{x:100+70*Math.cos(a),y:105-70*Math.sin(a)};}
+  function arcOffset(s){return totalLen-(s/100*totalLen);}
+  function ease(t){return t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+  function animate(ts){
+    if(!startTime)startTime=ts;
+    const t=Math.min((ts-startTime)/duration,1);
+    const e=ease(t);
+    const cur=current+(target-current)*e;
+    const pos=needlePos(cur);
+    needle.setAttribute('x2',pos.x);needle.setAttribute('y2',pos.y);
+    arc.setAttribute('stroke-dashoffset',arcOffset(cur));
+    arc.setAttribute('stroke',colorAt(cur));
+    scoreEl.style.color=colorAt(cur);
+    scoreEl.textContent=Math.round(cur);
+    if(t<1){requestAnimationFrame(animate);}
+    else{current=target;wpIdx=(wpIdx+1)%waypoints.length;target=waypoints[(wpIdx+1)%waypoints.length];startTime=null;setTimeout(()=>requestAnimationFrame(animate),400);}
+  }
+  requestAnimationFrame(animate);
+})();
 const Qs=[
   {l:"Sleep & Recovery",q:"How do you feel when you wake up in the morning?",o:["Refreshed and energetic — ready to go","Okay but takes me a while to get going","Tired, with brain fog or a dull headache that clears after an hour","Exhausted and foggy most mornings — regardless of how long I slept","Like I haven't slept at all — completely drained, foggy and heavy"]},
   {l:"Energy Through the Day",q:"How would you describe your energy levels during the day?",o:["Consistent and stable throughout","Good in the morning, dips a little in the afternoon","Crashes badly in the afternoon — I need caffeine or sugar","Low all day — I run on caffeine just to function","No energy at all — basic tasks feel exhausting"]},
