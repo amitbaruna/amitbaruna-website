@@ -546,10 +546,62 @@ function animateGauge(finalScore){
   requestAnimationFrame(run);
 }
 
+// ── Supabase config ───────────────────────────────────────────
+const SUPABASE_URL='https://hcksvwxbjcehfxbfgqdo.supabase.co';
+const SUPABASE_KEY='sb_publishable_8P0solsUeueG2VXNWSoujg_UuTImaJH';
+
+async function saveLeadToSupabase(name,whatsapp,email){
+  const flagList=selectedConditions
+    .map(i=>conditions[i])
+    .filter(c=>c!=='No known condition'&&c!=='Prefer not to say')
+    .join(',');
+
+  const payload={
+    name:name,
+    email:email,
+    whatsapp:whatsapp,
+    gender:userGender||null,
+    age_range:userAge||null,
+    metabolic_score:totalScore,
+    layer1_score:sc[1],
+    layer2_score:sc[2],
+    layer3_score:sc[3],
+    layer4_score:sc[4],
+    layer5_score:sc[5],
+    flags:flagList||null,
+    status:'new',
+    notes:null
+  };
+
+  try{
+    await fetch(SUPABASE_URL+'/rest/v1/leads',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify(payload)
+    });
+  }catch(err){
+    console.error('Supabase save failed:',err);
+  }
+}
+
 function handleSubmit(e){
   e.preventDefault();
   // Show quick CTA immediately
   document.getElementById('quickCTA').style.display='block';
+
+  const name=e.target.querySelector('input[name="Name"]').value.trim();
+  const whatsapp=e.target.querySelector('input[name="WhatsApp"]').value.trim();
+  const email=e.target.querySelector('input[name="Email"]').value.trim();
+
+  // Save to Supabase (fire and forget — doesn't block the result)
+  saveLeadToSupabase(name,whatsapp,email);
+
+  // Send to Formspree as before
   fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}})
   .then(r=>{showResult();}).catch(()=>{showResult();});
 }
