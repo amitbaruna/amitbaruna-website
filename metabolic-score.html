@@ -6,6 +6,15 @@
 <title>Metabolic Permission Score™ | Amit Baruna</title>
 <meta name="description" content="Find out which of your 5 metabolic layers is blocking your fat loss. Get your Metabolic Permission Score™ out of 100.">
 <link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:title" content="Metabolic Permission Score™ | Amit Baruna">
+<meta property="og:description" content="Find out which biological layer is blocking your fat loss. 10 questions. Personalised result. Free.">
+<meta property="og:image" content="https://amitbaruna.com/og-metabolic.png">
+<meta property="og:url" content="https://amitbaruna.com/metabolic-score">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Metabolic Permission Score™ | Amit Baruna">
+<meta name="twitter:description" content="Find out which biological layer is blocking your fat loss. 10 questions. Personalised result. Free.">
+<meta name="twitter:image" content="https://amitbaruna.com/og-metabolic.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--black:#0A0A0A;--black2:#1A1A1A;--red:#D42B2B;--rl:rgba(212,43,43,0.08);--rb:rgba(212,43,43,0.2);--white:#FFFFFF;--off:#F7F7F7;--ink:#1A1A1A;--ink2:#444;--ink3:#888;--bdr:rgba(0,0,0,0.08)}
@@ -92,8 +101,11 @@ input[type=range]{width:100%;accent-color:var(--red)}
 .rn.sel{border-color:var(--red);background:var(--red);color:#fff}
 .recog-ends{display:flex;justify-content:space-between;font-size:.68rem;color:var(--ink3);margin-bottom:.875rem}
 .gate-msg{font-size:.75rem;color:#B45309;text-align:center;padding:.5rem .875rem;background:rgba(245,158,11,0.08);border-radius:4px;border:1px solid rgba(245,158,11,0.2);margin-top:.5rem}
-.pts-big{font-size:3rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.25rem}
+.pts-big{font-size:3.5rem;font-weight:900;color:var(--red);line-height:1;margin-bottom:.25rem;text-shadow:0 0 20px rgba(212,43,43,0.3)}
 .pts-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink3);margin-bottom:.75rem}
+.pts-wrap{background:var(--black);border-radius:8px;padding:1.25rem;text-align:center;color:#fff}
+.pts-wrap .pts-lbl{color:rgba(255,255,255,0.4)}
+.pts-wrap .pts-big{color:#D42B2B}
 .blur-wrap{position:relative;border-radius:8px;overflow:hidden;margin-bottom:.875rem;min-height:180px}
 .blur-bg{filter:blur(5px);user-select:none;pointer-events:none;font-size:.82rem;color:var(--ink2);line-height:2.1;padding:1rem;background:var(--off);border-radius:8px}
 .blur-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,0.92);padding:1.25rem;text-align:center;border-radius:8px}
@@ -134,6 +146,7 @@ input[type=range]{width:100%;accent-color:var(--red)}
 .wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:998;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform .2s}
 .wa-float:hover{transform:scale(1.1)}
 .locked-card{display:none}
+.narrative-text strong{color:var(--ink);font-weight:700;background:rgba(212,43,43,0.08);padding:0 2px;border-radius:2px}
 </style>
 </head>
 <body>
@@ -347,9 +360,11 @@ input[type=range]{width:100%;accent-color:var(--red)}
     </div>
     <div class="card-body" id="body3">
       <div class="card-inner">
-        <div class="pts-big" id="ptsNum">+0</div>
-        <div class="pts-lbl">Points Available</div>
-        <div style="font-size:.82rem;color:var(--ink2);line-height:1.75" id="ptsDesc"></div>
+        <div class="pts-wrap">
+          <div class="pts-big" id="ptsNum">+0</div>
+          <div class="pts-lbl">Points Available</div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,0.6);line-height:1.75" id="ptsDesc"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -395,7 +410,7 @@ input[type=range]{width:100%;accent-color:var(--red)}
           <div class="form-wall-title">Your full breakdown is ready</div>
           <div class="form-wall-sub">Get it on WhatsApp</div>
           <input class="form-field" type="text" id="fName" placeholder="Your name" required>
-          <input class="form-field" type="tel" id="fWA" placeholder="Your WhatsApp number" required>
+          <div style="display:flex;gap:6px;margin-bottom:.6rem"><span style="padding:.8rem .75rem;background:var(--off);border:1.5px solid #CCC;border-radius:4px;font-size:.88rem;color:var(--ink);white-space:nowrap">+91</span><input class="form-field" type="tel" id="fWA" placeholder="10-digit WhatsApp number" pattern="[0-9]{10}" maxlength="10" style="margin-bottom:0;flex:1" required></div>
           <input class="form-field" type="email" id="fEmail" placeholder="Your email address">
           <input class="form-field" type="text" id="fCity" placeholder="Your city (optional)">
           <button class="btn-unlock" onclick="handleLeadSubmit()">Send My Breakdown →</button>
@@ -509,11 +524,11 @@ const WORKER_URL='https://metabolic-narrative.amit-baruna.workers.dev';
 const genders=['Male','Female','Prefer not to say'];
 const ages=['Under 25','25–34','35–44','45–54','55+'];
 const activities=['Sedentary — mostly sitting, little movement','Lightly active — some walking, occasional exercise','Moderately active — exercise 3–4 times a week','Very active — daily training or physical job'];
-const conditions=['Type 2 Diabetes or Pre-diabetes','PMOS (Polycystic Metabolic Ovarian Syndrome)','Thyroid condition','Hypertension','On GLP-1 medication (Ozempic / Mounjaro / Wegovy)','Anxiety or Depression','Sleep Disorder / Insomnia','No known condition','Prefer not to say'];
+const conditions=['Type 2 Diabetes or Pre-diabetes','PMOS / PCOS / PCOD','Thyroid condition','Hypertension','On GLP-1 medication (Ozempic / Mounjaro / Wegovy)','Anxiety or Depression','Sleep Disorder / Insomnia','No known condition','Prefer not to say'];
 const cyclesByAge={
-  'Under 25':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','PMOS','Hormonal contraception','Prefer not to say'],
-  '25–34':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','PMOS','Hormonal contraception','Prefer not to say'],
-  '35–44':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','PMOS','Perimenopause symptoms','Uterus removal','Hormonal contraception','Prefer not to say'],
+  'Under 25':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','Hormonal contraception','Prefer not to say'],
+  '25–34':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','Hormonal contraception','Prefer not to say'],
+  '35–44':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','Perimenopause symptoms','Uterus removal','Hormonal contraception','Prefer not to say'],
   '45–54':['Regular cycle — no major issues','Irregular cycle — unpredictable timing or flow','Perimenopause','Menopause phase','Uterus removal','Prefer not to say'],
   '55+':['Post-menopause','Uterus removal','Prefer not to say']
 };
@@ -526,7 +541,7 @@ const Qs=[
   {l:'Layer 1 — Circadian Authority',q:'How would you describe your energy levels during the day?',o:['Consistent and stable throughout','Good in the morning, dips a little in the afternoon','My energy drops significantly by afternoon, especially after lunch','Low energy most of the day — I often feel tired','No energy at all — basic tasks feel exhausting']},
   {l:'Layer 2 — Neurochemical Safety',q:'When life gets stressful, what usually happens to you?',o:['I stay fairly calm and handle it well','I feel stressed, but it doesn\'t affect me too much','I become more anxious and find it harder to switch off','I feel constantly on edge, even when nothing is wrong','I feel like I\'m always in survival mode and can never truly relax']},
   {l:'Layer 2 — Neurochemical Safety',q:'When you\'re stressed or overwhelmed, what usually happens with food?',o:['My eating habits stay pretty much the same','I snack a little more, but nothing major','I notice more cravings, especially for comfort foods','I often eat even when I\'m not physically hungry','Stress makes it very hard to control what or how much I eat']},
-  {l:'Layer 3 — Metabolic Signaling',q:'When you genuinely try to lose weight, what usually happens?',o:['I lose weight steadily','I lose a little then plateau — even in a clear deficit','I see almost no change no matter how little I eat','I sometimes gain weight even when eating very little','I\'ve been told my metabolism is broken or damaged']},
+  {l:'Layer 3 — Metabolic Signaling',q:'When you genuinely try to lose weight, what usually happens?',o:['I lose weight steadily','I lose weight but it takes much more effort than it used to','I lose a little then plateau — even when I am doing everything right','I see almost no change no matter how little I eat','I sometimes gain weight even when eating very little']},
   {l:'Layer 3 — Metabolic Signaling',q:'How do you feel after lunch?',o:['Fine — satisfied and energetic','Slightly tired but manageable','Sleepy or foggy — I struggle to focus','Bloated, sleepy, tired and sometimes hungry again','My energy completely crashes after eating']},
   {l:'Layer 4 — Gut–Brain Axis',q:'How would you describe your digestion?',o:['My digestion feels normal and rarely causes problems','I occasionally experience bloating or discomfort','I regularly experience bloating, gas or stomach discomfort','My digestive issues are frequent and affect how I feel most days','My gut feels sensitive to almost everything I eat']},
   {l:'Layer 4 — Gut–Brain Axis',q:'How clear does your mind feel on a typical day?',o:['My mind feels clear, focused and sharp','I occasionally lose focus but usually think clearly','I often feel foggy or unfocused — it comes and goes through the day','Struggling to concentrate most of the time','Constant fog — I can\'t remember things or think straight']},
@@ -713,6 +728,201 @@ function getPattern(score,rcs){
   return'pattern1';
 }
 
+// ── PATTERN THRESHOLDS CONFIG (edit here to tune, never hardcode inline) ──
+const PATTERN_THRESHOLDS={
+  p1:{syli:4,rcs:6},
+  p2:{rcs:7,syli_guard:4},
+  p3:{sli:3,bri:6},
+  p4:{gsi:3,rcs_min:6},
+  p5:{l3:10,gsi:6,rcs_lo:6,rcs_hi:14},
+  p6:{l1:10,sleep:5,rcs:10},
+  p7:{l4:10,gut:5},
+  p8:{rcs_min:10,bri:6},
+  secondary_min_confidence:50,
+};
+
+// ── V3 CONVERSION (raw answer score → 0-4) ────────────────────
+function convertScore(raw){
+  if(raw>=10)return 4;if(raw>=7)return 3;if(raw>=4)return 2;if(raw>=2)return 1;return 0;
+}
+function stressSliderConvert(v){
+  if(v<=2)return 4;if(v<=4)return 3;if(v<=6)return 2;if(v<=8)return 1;return 0;
+}
+
+// ── HIDDEN INTELLIGENCE LAYER ─────────────────────────────────
+// history[n].score = raw worst-answer score for question n (0-indexed)
+function computeHiddenLayer(){
+  const c=n=>convertScore(history[n]?history[n].score:0);
+
+  // SLI — Stress Load Index (Q3, Q4, stress slider)
+  const sli=c(2)+c(3)+stressSliderConvert(stressScore);
+  let sliClass='Severe Load';
+  if(sli>=10)sliClass='Low Load';else if(sli>=7)sliClass='Moderate Load';else if(sli>=4)sliClass='High Load';
+
+  // BRI — Behavioral Resilience Index (Q9, Q10, Q3)
+  const bri=c(8)+c(9)+c(2);
+  let briClass='Severely Compromised';
+  if(bri>=10)briClass='Strong';else if(bri>=7)briClass='Moderate';else if(bri>=4)briClass='Fragile';
+
+  // GSI — Glucose Stability Index (Q2, Q5, Q6) — experimental
+  const gsi=c(1)+c(4)+c(5);
+  let gsiClass='Severe Instability';
+  if(gsi>=10)gsiClass='Stable';else if(gsi>=7)gsiClass='Mild Instability';else if(gsi>=4)gsiClass='Moderate Instability';
+
+  // SYLI — System Load Index: count layer PAIRS (not questions) below 10/20
+  const pairs=[[0,1],[2,3],[4,5],[6,7],[8,9]];
+  const syli=pairs.filter(([a,b])=>(history[a]?history[a].score:0)+(history[b]?history[b].score:0)<10).length;
+  let syliClass='Localized';
+  if(syli>=5)syliClass='System-Wide Load';else if(syli>=4)syliClass='High Complexity';else if(syli>=2)syliClass='Multi-System';
+
+  // AAS — Awareness Alignment System (analytics only, never sent to worker)
+  const sleepAlign=sleepScore-(sc[1]/2);
+  const stressAlign=stressScore-(10-(sc[2]/2));
+  const gutAlign=gutScore-(sc[4]/2);
+  const overallAlign=(Math.abs(sleepAlign)+Math.abs(stressAlign)+Math.abs(gutAlign))/3;
+
+  return{sli,sliClass,bri,briClass,gsi,gsiClass,syli,syliClass,
+         sleepAlign,stressAlign,gutAlign,overallAlign};
+}
+
+// ── CONFIDENCE ENGINE ─────────────────────────────────────────
+function sigLow(val,thresh){
+  // Lower value = stronger signal. Returns 0.0–1.0
+  if(val>thresh)return 0;
+  return 1-(val/(thresh+1));
+}
+function sigHigh(val,thresh,rangeMax){
+  if(val<thresh)return 0;
+  return Math.min(1,(val-thresh+1)/(rangeMax-thresh+1));
+}
+function sigMatch(val,targets){return targets.includes(val)?1:0;}
+function sigBand(val,lo,hi){return(val>=lo&&val<=hi)?1:0;}
+function weightedConf(signals){
+  const totalW=signals.reduce((s,[,w])=>s+w,0);
+  return Math.round(signals.reduce((s,[str,w])=>s+str*w,0)/totalW*100);
+}
+
+// ── PATTERN ENGINE ────────────────────────────────────────────
+function computePatternEngine(rcs,hl){
+  const T=PATTERN_THRESHOLDS;
+  const lt={1:sc[1],2:sc[2],3:sc[3],4:sc[4],5:sc[5]};
+  const pb=Object.entries(lt).reduce((a,b)=>b[1]<a[1]?b:a)[0]*1; // primary blocker layer index
+  const mps=totalScore;
+  const candidates=[];
+
+  // P1 — System-Wide Adaptation Deficit
+  if(hl.syli>=T.p1.syli&&rcs<=T.p1.rcs){
+    const conf=weightedConf([
+      [sigHigh(hl.syli,T.p1.syli,5),40],
+      [sigLow(rcs,T.p1.rcs),40],
+      [sigLow(mps/100,0.30),20],
+    ]);
+    candidates.push({name:'System-Wide Adaptation Deficit',conf,priority:1,
+      reason:`SYLI ${hl.syli}/5, RCS ${rcs}/20`});
+  }
+
+  // P2 — Recovery Deficit (RCS ≤ 7, SYLI < 4, PB in L1 or L2)
+  if(rcs<=T.p2.rcs&&hl.syli<T.p2.syli_guard&&(pb===1||pb===2)){
+    const conf=weightedConf([
+      [sigLow(rcs,T.p2.rcs),45],
+      [sigLow(lt[pb],10),35],
+      [sigLow(hl.sli,6),20],
+    ]);
+    candidates.push({name:'Recovery Deficit',conf,priority:2,
+      reason:`RCS ${rcs}/20, PB=L${pb}, SYLI ${hl.syli}`});
+  }
+
+  // P3 — Nervous System Overload
+  if(hl.sli<=T.p3.sli&&hl.bri<=T.p3.bri){
+    const conf=weightedConf([
+      [sigLow(hl.sli,T.p3.sli),35],
+      [sigLow(hl.bri,T.p3.bri),35],
+      [sigLow(rcs,10),20],
+      [sigMatch(pb,[2]),10],
+    ]);
+    candidates.push({name:'Nervous System Overload',conf,priority:3,
+      reason:`SLI ${hl.sli}/12, BRI ${hl.bri}/12`});
+  }
+
+  // P4 — Fuel Regulation Bottleneck
+  if(hl.gsi<=T.p4.gsi&&rcs>T.p4.rcs_min){
+    const conf=weightedConf([
+      [sigLow(hl.gsi,T.p4.gsi),40],
+      [sigHigh(rcs,T.p4.rcs_min,20),35],
+      [sigLow(lt[3],10),25],
+    ]);
+    candidates.push({name:'Fuel Regulation Bottleneck',conf,priority:4,
+      reason:`GSI ${hl.gsi}/12, RCS ${rcs}/20`});
+  }
+
+  // P5 — Metabolic Resistance Pattern
+  if(lt[3]<T.p5.l3&&hl.gsi<=T.p5.gsi&&rcs>=T.p5.rcs_lo&&rcs<=T.p5.rcs_hi){
+    const conf=weightedConf([
+      [sigLow(lt[3],T.p5.l3),40],
+      [sigLow(hl.gsi,T.p5.gsi),35],
+      [sigBand(rcs,T.p5.rcs_lo,T.p5.rcs_hi),25],
+    ]);
+    candidates.push({name:'Metabolic Resistance Pattern',conf,priority:5,
+      reason:`L3 ${lt[3]}/20, GSI ${hl.gsi}/12, RCS ${rcs}`});
+  }
+
+  // P6 — Circadian Disruption Pattern (sleep threshold 5, approved)
+  if(lt[1]<T.p6.l1&&sleepScore<=T.p6.sleep&&rcs<=T.p6.rcs){
+    const conf=weightedConf([
+      [sigLow(lt[1],T.p6.l1),40],
+      [sigLow(sleepScore,T.p6.sleep),35],
+      [sigLow(rcs,T.p6.rcs),25],
+    ]);
+    candidates.push({name:'Circadian Disruption Pattern',conf,priority:6,
+      reason:`L1 ${lt[1]}/20, sleep ${sleepScore}/10, RCS ${rcs}`});
+  }
+
+  // P7 — Gut-Brain Load (gut_rating condition added, approved)
+  if(lt[4]<T.p7.l4&&gutScore<=T.p7.gut){
+    const conf=weightedConf([
+      [sigLow(lt[4],T.p7.l4),50],
+      [sigLow(gutScore,T.p7.gut),30],
+      [sigLow(rcs,12),20],
+    ]);
+    candidates.push({name:'Gut-Brain Load',conf,priority:7,
+      reason:`L4 ${lt[4]}/20, gut ${gutScore}/10`});
+  }
+
+  // P8 — Behavioral Recovery Gap
+  if(rcs>=T.p8.rcs_min&&hl.bri<=T.p8.bri){
+    const conf=weightedConf([
+      [sigHigh(rcs,T.p8.rcs_min,20),40],
+      [sigLow(hl.bri,T.p8.bri),40],
+      [sigMatch(pb,[5]),20],
+    ]);
+    candidates.push({name:'Behavioral Recovery Gap',conf,priority:8,
+      reason:`RCS ${rcs}/20, BRI ${hl.bri}/12`});
+  }
+
+  // Sort by priority — first match wins dominant, second wins secondary
+  candidates.sort((a,b)=>a.priority-b.priority);
+
+  const dominant=candidates[0]||{name:'Single System Bottleneck',conf:50,priority:9,
+    reason:`L${pb} primary blocker`};
+  const secondaryRaw=candidates[1]||null;
+
+  // Secondary confidence gate: send to narrative only if ≥ 50%
+  // Store raw secondary for analytics regardless
+  const secondary=secondaryRaw&&secondaryRaw.conf>=T.secondary_min_confidence
+    ?secondaryRaw:null;
+
+  return{
+    dominant_pattern:dominant.name,
+    dominant_pattern_confidence:dominant.conf,
+    dominant_reason:dominant.reason,
+    secondary_pattern:secondary?secondary.name:null,
+    secondary_pattern_confidence:secondaryRaw?secondaryRaw.conf:null,
+    // raw secondary always stored for analytics even if below gate
+    secondary_pattern_raw:secondaryRaw?secondaryRaw.name:null,
+    secondary_pattern_confidence_raw:secondaryRaw?secondaryRaw.conf:null,
+  };
+}
+
 function getBlockerCard(layerIdx,rcs){
   const cat=rcs>=16?'high':rcs>=11?'mod':'low';
   const cards={
@@ -749,6 +959,9 @@ function showScore(){
   const pattern=getPattern(totalScore,rcs);
   const sorted=[1,2,3,4,5].map(i=>({idx:i,score:sc[i]})).sort((a,b)=>a.score-b.score);
   const dominantLayer=sorted[0].idx;
+  window.dominantLayerRef=dominantLayer;
+  window.rcsValueRef=rcs;
+  window.patternRef=pattern;
 
   animateGauge(totalScore,band.color);
 
@@ -784,7 +997,8 @@ function showScore(){
       document.querySelectorAll('.rn').forEach(x=>x.classList.remove('sel'));
       d.classList.add('sel');recognitionRate=i;rated=true;
       document.getElementById('gateMsg').style.display='none';
-      document.getElementById('btnUnlock').disabled=false;
+      const unlockBtn=document.getElementById('btnUnlock');
+      if(unlockBtn){unlockBtn.disabled=false;unlockBtn.style.opacity='1';unlockBtn.style.pointerEvents='all';}
       document.getElementById('unlockHint').style.display='none';
       saveRecognitionRate(i);
     };
@@ -858,25 +1072,28 @@ function handleUnlockClick(){
 async function handleLeadSubmit(){
   const name=document.getElementById('fName').value.trim();
   const wa=document.getElementById('fWA').value.trim();
-  if(!name||!wa){alert('Please enter your name and WhatsApp number.');return;}
+  if(!name){alert('Please enter your name.');return;}
+  if(!wa||!/^[0-9]{10}$/.test(wa)){alert('Please enter a valid 10-digit WhatsApp number.');return;}
   document.getElementById('body4').classList.remove('open');
   document.getElementById('chev4').classList.remove('open');
   document.getElementById('c4peek').textContent='Details submitted — thank you';
+  document.getElementById('formWall').style.display='none';
   document.getElementById('lockSvg').innerHTML='<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>';
   ['card5','card6','card7','card8'].forEach((id,i)=>{
     setTimeout(()=>{document.getElementById(id).style.display='block';},i*150);
   });
   setTimeout(()=>{
-    buildFullResult();
+    buildFullResult(dominantLayerRef,rcsValueRef,patternRef);
     document.getElementById('card5').scrollIntoView({behavior:'smooth',block:'start'});
   },700);
   saveLeadToSupabase(name,wa,document.getElementById('fEmail').value.trim(),document.getElementById('fCity').value.trim());
 }
 
-function buildFullResult(){
+function buildFullResult(dl,rcs,pat){
+  rcsValue=rcs||window.rcsValueRef||10;
   const sorted=[1,2,3,4,5].map(i=>({idx:i,score:sc[i]})).sort((a,b)=>a.score-b.score);
-  const dominantLayer=sorted[0].idx;
-  const pattern=getPattern(totalScore,rcsValue);
+  const dominantLayer=dl||window.dominantLayerRef||sorted[0].idx;
+  const pattern=pat||window.patternRef||getPattern(totalScore,rcsValue);
 
   // Layer bars
   const lb=document.getElementById('layerBars');lb.innerHTML='';
@@ -894,16 +1111,18 @@ function buildFullResult(){
   // Blocker cards — max 2, show 2nd only if within 2 points of 1st
   const bc=document.getElementById('blockerCards');bc.innerHTML='';
   const ranks=[['🔴','Primary Blocker','#EF4444'],['🟡','Secondary Blocker','#F59E0B']];
-  const showSecond=sorted.length>1&&(sorted[0].score===sorted[1].score||(sorted[1].score-sorted[0].score)<=2);
+  const showSecond=sorted.length>1&&sorted[1]&&(sorted[0].score===sorted[1].score||(sorted[1].score-sorted[0].score)<=2);
   const blockerCount=showSecond?2:1;
   sorted.slice(0,blockerCount).forEach((layer,i)=>{
+    if(!layer||layer.idx==null)return;
     const card=document.createElement('div');card.className='blocker-card';
     const desc=getBlockerCard(layer.idx,rcsValue);
-    card.innerHTML='<span class="blocker-rank" style="color:'+ranks[i][2]+'">'+ranks[i][0]+' '+ranks[i][1]+' — '+layer.name+'</span><p class="blocker-desc">'+desc+'</p>';
+    const layerLabel=layerNames[layer.idx-1]||'Unknown';
+    card.innerHTML='<span class="blocker-rank" style="color:'+ranks[i][2]+'">'+ranks[i][0]+' '+ranks[i][1]+' — '+layerLabel+'</span><p class="blocker-desc">'+desc+'</p>';
     bc.appendChild(card);
   });
   // Cascade note
-  if(showSecond&&(dominantLayer===2)&&(sorted[1].idx===1||sorted[1].idx===5)){
+  if(showSecond&&sorted[1]&&(dominantLayer===2)&&(sorted[1].idx===1||sorted[1].idx===5)){
     const note=document.createElement('div');note.style.cssText='font-size:.75rem;color:var(--ink3);padding:.5rem .875rem;background:var(--off);border-radius:4px;border:1px solid var(--bdr);margin-top:.25rem';
     note.textContent='These two layers are reinforcing each other — addressing the primary blocker is likely to improve the secondary one simultaneously.';
     bc.appendChild(note);
@@ -914,7 +1133,7 @@ function buildFullResult(){
   const confirmedNames=selectedConditions.map(i=>conditions[i]).filter(c=>c!=='No known condition'&&c!=='Prefer not to say');
   const flagTexts={
     'Type 2 Diabetes or Pre-diabetes':'Your score pattern combined with a diabetes or pre-diabetes diagnosis suggests that blood sugar regulation may be affected by more than diet alone. Stress, sleep disruption and gut inflammation all affect insulin sensitivity — and addressing these biological layers may support how your body responds to dietary changes.',
-    'PMOS (Polycystic Metabolic Ovarian Syndrome)':'Polycystic Metabolic Ovarian Syndrome (PMOS) involves both hormonal and metabolic disruption — and your score pattern suggests that the stress and metabolic signaling layers may be amplifying the hormonal picture. Insulin resistance and cortisol load often work together in PMOS — addressing both may produce better results than addressing either alone.',
+    'PMOS / PCOS / PCOD':'Polycystic Metabolic Ovarian Syndrome (PMOS) involves both hormonal and metabolic disruption — and your score pattern suggests that the stress and metabolic signaling layers may be amplifying the hormonal picture. Insulin resistance and cortisol load often work together in PMOS — addressing both may produce better results than addressing either alone.',
     'Thyroid condition':'A thyroid condition combined with your score pattern may be worth looking at more carefully. Standard thyroid panels often miss how thyroid conversion — from T4 to T3 — is affected by cortisol and circadian disruption. This is why people on thyroid medication often still feel exhausted. The medication addresses the thyroid. It may not have addressed what is affecting the thyroid.',
     'Hypertension':'Elevated blood pressure combined with your score pattern may reflect chronic sympathetic nervous system activation — the same mechanism affecting your metabolic health. Addressing the nervous system layer may support blood pressure regulation alongside conventional management.',
     'On GLP-1 medication (Ozempic / Mounjaro / Wegovy)':'GLP-1 medication addresses appetite signaling effectively. What it does not address is sleep quality, stress load, muscle retention or the biological layers that determine how well your body uses the weight loss. Supporting these layers alongside medication may significantly improve outcomes and protect lean mass during the process.',
@@ -946,7 +1165,13 @@ function buildFullResult(){
 // ── CLAUDE API ─────────────────────────────────────────────────
 async function generateNarrative(dominantLayer,rcs,pattern,band,sorted){
   const answersPayload=history.map((h,i)=>({question:Qs[i].q,selected:h.selected.map(s=>Qs[i].o[s]),worstScore:h.score}));
+
+  // Compute hidden intelligence and pattern engine
+  const hl=computeHiddenLayer();
+  const pe=computePatternEngine(rcs,hl);
+
   const payload={
+    // ── Existing scores (unchanged) ──
     totalScore,band:band.label,
     layer1:sc[1],layer2:sc[2],layer3:sc[3],layer4:sc[4],layer5:sc[5],
     dominantLayerIdx:dominantLayer,dominantLayerName:layerNames[dominantLayer-1],
@@ -956,8 +1181,20 @@ async function generateNarrative(dominantLayer,rcs,pattern,band,sorted){
     cycle:userCycle||null,
     conditions:selectedConditions.map(i=>conditions[i]).filter(c=>c!=='No known condition'&&c!=='Prefer not to say'),
     sleepRating:sleepScore,stressRating:stressScore,gutRating:gutScore,
-    answers:answersPayload
+    answers:answersPayload,
+    // ── Hidden intelligence (narrative-relevant only; AAS excluded) ──
+    sli:hl.sli,sliClass:hl.sliClass,
+    bri:hl.bri,briClass:hl.briClass,
+    gsiClass:hl.gsiClass,          // classification only — raw value experimental
+    syli:hl.syli,syliClass:hl.syliClass,
+    // ── Pattern engine ──
+    dominant_pattern:pe.dominant_pattern,
+    dominant_pattern_confidence:pe.dominant_pattern_confidence,
+    // Secondary sent to narrative only if confidence >= 50%
+    secondary_pattern:pe.secondary_pattern,
+    secondary_pattern_confidence:pe.secondary_pattern_confidence,
   };
+
   try{
     const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const data=await res.json();
@@ -994,7 +1231,42 @@ async function saveProgress(){
 async function saveScoreData(rcs,pattern,dominantLayer){
   if(!sessionId)return;
   const names=selectedConditions.map(i=>conditions[i]).filter(c=>c!=='No known condition'&&c!=='Prefer not to say');
-  try{await fetch(SUPABASE_URL+'/rest/v1/leads?session_id=eq.'+sessionId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},body:JSON.stringify({metabolic_score:totalScore,layer1_score:sc[1],layer2_score:sc[2],layer3_score:sc[3],layer4_score:sc[4],layer5_score:sc[5],recovery_capacity_score:rcs,pattern:pattern,dominant_layer:dominantLayer,cycle_status:userCycle||null,flags:names.join(',')||null,q_answers:JSON.stringify(history.map((h,i)=>({q:i+1,selected:h.selected,score:h.score}))),status:'scored'})});}catch(e){}
+  // Compute hidden layer and pattern engine for storage
+  const hl=computeHiddenLayer();
+  const pe=computePatternEngine(rcs,hl);
+  try{await fetch(SUPABASE_URL+'/rest/v1/leads?session_id=eq.'+sessionId,{method:'PATCH',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},body:JSON.stringify({
+    // ── Existing fields (unchanged) ──
+    metabolic_score:totalScore,
+    layer1_score:sc[1],layer2_score:sc[2],layer3_score:sc[3],layer4_score:sc[4],layer5_score:sc[5],
+    recovery_capacity_score:rcs,
+    pattern:pattern,
+    dominant_layer:dominantLayer,
+    cycle_status:userCycle||null,
+    flags:names.join(',')||null,
+    q_answers:JSON.stringify(history.map((h,i)=>({q:i+1,selected:h.selected,score:h.score}))),
+    // ── Hidden Intelligence Layer ──
+    stress_load_index:hl.sli,
+    stress_load_classification:hl.sliClass,
+    behavioral_resilience_index:hl.bri,
+    behavioral_resilience_classification:hl.briClass,
+    glucose_stability_index:hl.gsi,
+    glucose_stability_classification:hl.gsiClass,
+    system_load_index:hl.syli,
+    system_load_classification:hl.syliClass,
+    // ── Awareness Alignment System (analytics only) ──
+    sleep_alignment:Math.round(hl.sleepAlign*10)/10,
+    stress_alignment:Math.round(hl.stressAlign*10)/10,
+    gut_alignment:Math.round(hl.gutAlign*10)/10,
+    overall_alignment:Math.round(hl.overallAlign*10)/10,
+    // ── Pattern Engine (all four fields always stored) ──
+    dominant_pattern:pe.dominant_pattern,
+    dominant_pattern_confidence:pe.dominant_pattern_confidence,
+    // secondary_pattern: null if below 50% gate (narrative routing)
+    // secondary_pattern_confidence: always stored for analytics
+    secondary_pattern:pe.secondary_pattern,
+    secondary_pattern_confidence:pe.secondary_pattern_confidence_raw,
+    status:'scored',
+  })});}catch(e){}
 }
 
 async function saveRecognitionRate(rate){
